@@ -1,0 +1,49 @@
+{
+  "$schema": "https://beta.frontmatter.codes/frontmatter.schema.json",
+  "frontMatter.taxonomy.contentTypes": [
+    {
+      "name": "artwork",
+      "pageBundle": false,
+      "clearEmpty": true,
+      "fields": [
+        {
+          "name": "title",
+          "type": "string",
+          "single": true,
+          "required": true
+        },
+        {
+          "name": "year",
+          "type": "number"
+        },
+        {
+          "name": "tags",
+          "type": "tags"
+        },
+        {
+          "name": "isDraft",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "medium",
+          "type": "list"
+        }
+      ]
+    }
+  ],
+  "frontMatter.framework.id": "astro",
+  "frontMatter.preview.host": "http://localhost:4321",
+  "frontMatter.content.pageFolders": [
+    {
+      "title": "artwork",
+      "path": "[[workspace]]/src/content/artwork"
+    }
+  ],
+  "frontMatter.content.publicFolder": {
+    "path": "src/assets",
+    "relative": true
+  },
+  "frontMatter.git.enabled": true,
+  "frontMatter.framework.startCommand": "yarn dev"
+}
