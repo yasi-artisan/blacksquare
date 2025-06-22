@@ -5,6 +5,7 @@
       "name": "artwork",
       "pageBundle": false,
       "clearEmpty": true,
+      "previewPath": "/artworks",
       "fields": [
         {
           "name": "title",
@@ -28,8 +29,42 @@
         {
           "name": "medium",
           "type": "list"
+        },
+        {
+          "name": "featured",
+          "type": "fields",
+          "title": "Featured",
+          "fields": [
+            { "title": "Image", "name": "image", "type": "image" },
+            { "title": "Alt", "name": "alt", "type": "string" }
+          ]
+        },
+        {
+          "name": "gallery",
+          "type": "image",
+          "multiple": true,
+          "title": "Gallery"
         }
       ]
+    }
+  ],
+  "frontMatter.data.files": [
+    {
+      "title": "Settings",
+      "id": "settings",
+      "file": "[[workspace]]/src/content/settings/default.yml",
+      "fileType": "yaml",
+      "singleEntry": true,
+      "schema": {
+        "title": "Settings",
+        "type": "object",
+        "properties": {
+          "sitename": {
+            "type": "string",
+            "title": "Site title"
+          }
+        }
+      }
     }
   ],
   "frontMatter.framework.id": "astro",

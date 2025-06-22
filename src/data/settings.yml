@@ -1,0 +1,14 @@
+site:
+  sitename: Yasaman Moussavi
+  description: >-
+    A contemporary art gallery showcasing cutting-edge artists and
+    thought-provoking exhibitions
+  logo: /logo.svg
+  socials:
+    instagram: "https://www.instagram.com/yasi_moussavi/"
+  contact:
+    email: "yasi.artisan@gmail.com"
+  features:
+    darkMode: true
+    newsletter: true
+    search: true

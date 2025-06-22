@@ -1,0 +1,145 @@
+---
+import { getSiteSettings } from "@/lib/settings";
+
+interface Props {
+    class?: string;
+    [key: string]: unknown;
+}
+
+const { class: classNames = "", ...props } = Astro.props;
+const settings = await getSiteSettings();
+const { sitename } = settings;
+---
+
+<div
+    class="sheet"
+    x-data="{ open: false }"
+    :class="{ 'sheet--drawer-open': open }"
+    @keyup.esc="open = false"
+>
+    <!-- <header class="sheet__header">
+        <button
+            @click.stop="open = !open"
+            aria-controls="drawer"
+            :aria-expanded="open.toString()"
+        >
+            Menu
+        </button>
+        {sitename}
+    </header> -->
+
+    <aside class="sheet__drawer" id="drawer" @click.outside="open = false">
+        <div class="sheet__drawer-inner">
+            <slot name="aside" />
+        </div>
+    </aside>
+
+    <!-- <main class="sheet__content">
+        <slot />
+    </main>
+
+    <footer class="sheet__footer">
+        <slot name="footer" />
+    </footer> -->
+
+    <div class="sheet__main">
+        <header class="sticky top-0">
+            <button
+                @click.stop="open = !open"
+                aria-controls="drawer"
+                :aria-expanded="open.toString()"
+            >
+                Menu2
+            </button>
+
+            {sitename}
+        </header>
+        <slot />
+    </div>
+</div>
+
+<style scoped>
+    :root {
+        --drawer-width: 280px;
+        --drawer-transition-duration: 0.3s;
+        --drawer-transition-timing: ease-in-out;
+    }
+
+    .sheet {
+        display: grid;
+        /* The first column is for the drawer, starts at 0 width */
+        grid-template-columns: 0 1fr;
+        grid-template-rows: auto 1fr auto;
+        grid-template-areas:
+            "drawer main"
+            "drawer main"
+            "drawer main";
+        min-height: 100svh;
+        transition: grid-template-columns var(--drawer-transition-duration)
+            var(--drawer-transition-timing);
+    }
+
+    .sheet__main {
+        grid-area: main;
+        scroll-snap-type: y mandatory;
+        overflow-y: auto;
+        height: 100svh;
+    }
+
+    /* When the drawer is open, change the first column's width */
+    .sheet--drawer-open {
+        grid-template-columns: var(--drawer-width) 1fr;
+    }
+
+    .sheet__header {
+        grid-area: header;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        padding: 0 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: Canvas; /* Use system UI colors for better UX */
+        border-bottom: 1px solid CanvasText;
+    }
+
+    .sheet__drawer {
+        grid-area: drawer;
+        /* Hides the content of the drawer while it's animating */
+        overflow: hidden;
+        background: Canvas;
+        border-right: 1px solid CanvasText;
+        height: 100svh;
+    }
+
+    /* Inner container ensures content doesn't get cut off and is scrollable */
+    .sheet__drawer-inner {
+        width: var(--drawer-width);
+        height: 100%;
+        overflow-y: auto;
+        padding: 1rem;
+    }
+
+    .sheet__content {
+        grid-area: content;
+        /* This is key: prevents content from being squished */
+        overflow-x: hidden;
+        padding: 1rem;
+    }
+
+    .sheet__footer {
+        grid-area: footer;
+        grid-column: 2; /* Ensure footer is only in the content column */
+        background: Canvas;
+        padding: 1rem;
+        border-top: 1px solid CanvasText;
+
+        scroll-snap-type-y: mandatory;
+    }
+
+    .sheet--drawer-open .sheet__footer {
+        /* When drawer is open, footer should also be in content column */
+        grid-column: 2;
+    }
+</style>

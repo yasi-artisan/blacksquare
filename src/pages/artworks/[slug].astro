@@ -1,12 +1,14 @@
 ---
+import Layout from "@/layouts/Layout.astro";
 import type { GetStaticPaths } from "astro";
+import { Image } from "astro:assets";
+import { render } from "astro:content";
 import { getCollection } from "astro:content";
 
 export const prerender = true;
 
 export const getStaticPaths = ( async () => {
     const pages = await getCollection("artwork", ({data}) => !data.isDraft )
-    console.log(pages)
     return pages.map((page) => ({
         params: {slug: page.id},
         props: {page}
@@ -14,9 +16,15 @@ export const getStaticPaths = ( async () => {
 }) satisfies GetStaticPaths;
 
 const {page} = Astro.props
-
+const {title, gallery, featured, year} = page.data
+console.log(page.data)
 
 ---
 
+<Layout {title}>
 
-{page.data.title}
+    <h1 class="text-7xl font-(family-name:--font-black-han)">{title}</h1>
+    <Image src={featured.image}  alt={featured?.alt ?? "no alt"} layout="constrained"/>
+
+</Layout>
+

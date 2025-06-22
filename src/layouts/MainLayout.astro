@@ -1,0 +1,264 @@
+---
+import { getSiteSettings } from '../lib/settings';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description, image } = Astro.props;
+
+// Get site settings
+const siteSettings = await getSiteSettings();
+
+// Use provided values or fall back to site settings
+const pageTitle = title ? `${title} | ${siteSettings.title}` : siteSettings.title;
+const pageDescription = description || siteSettings.description;
+const pageImage = image || siteSettings.logo;
+
+// Get site colors for dynamic styling
+const colors = siteSettings.colors || {
+  primary: '#000000',
+  secondary: '#ffffff',
+  accent: '#ff4500',
+  background: '#f8f8f8'
+};
+
+// Check if dark mode is enabled
+const isDarkModeEnabled = siteSettings.features?.darkMode ?? true;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href={siteSettings.logo} />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    {pageImage && <meta property="og:image" content={new URL(pageImage, Astro.site || Astro.url.origin).href} />}
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    {pageImage && <meta name="twitter:image" content={new URL(pageImage, Astro.site || Astro.url.origin).href} />}
+
+    <!-- Custom CSS Variables for site colors -->
+    <style define:vars={colors}>
+      :root {
+        --color-primary: var(--primary);
+        --color-secondary: var(--secondary);
+        --color-accent: var(--accent);
+        --color-background: var(--background);
+      }
+    </style>
+
+    <!-- Dark mode script -->
+    {isDarkModeEnabled && (
+      <script is:inline>
+        // Check for saved theme preference or use OS preference
+        const theme = (() => {
+          if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+            return localStorage.getItem('theme');
+          }
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        })();
+
+        // Apply theme immediately to avoid FOUC (Flash of Unstyled Content)
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+
+        // Save the theme preference
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('theme', theme);
+        }
+      </script>
+    )}
+  </head>
+  <body class="bg-background text-primary min-h-screen flex flex-col">
+    <header class="border-b border-gray-200 dark:border-gray-800">
+      <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <a href="/" class="flex items-center gap-2">
+          {siteSettings.logo && (
+            <img src={siteSettings.logo} alt={siteSettings.title} class="h-8" />
+          )}
+          <span class="font-bold text-lg">{siteSettings.title}</span>
+        </a>
+
+        <nav class="hidden md:flex gap-6">
+          <a href="/" class="hover:text-accent">Home</a>
+          <a href="/artworks" class="hover:text-accent">Artworks</a>
+          <a href="/exhibitions" class="hover:text-accent">Exhibitions</a>
+          <a href="/about" class="hover:text-accent">About</a>
+          <a href="/contact" class="hover:text-accent">Contact</a>
+        </nav>
+
+        <div class="flex items-center gap-4">
+          <!-- Social Media Links -->
+          <div class="hidden md:flex gap-3">
+            {siteSettings.socials?.map((social) => (
+              <a
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-gray-600 hover:text-accent dark:text-gray-400"
+                aria-label={social.platform}
+              >
+                <span class="sr-only">{social.platform}</span>
+                <i class={`icon-${social.icon}`}></i>
+              </a>
+            ))}
+          </div>
+
+          <!-- Dark Mode Toggle -->
+          {isDarkModeEnabled && (
+            <button
+              id="theme-toggle"
+              class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
+              aria-label="Toggle Dark Mode"
+            >
+              <svg id="sun-icon" class="hidden dark:block w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 10a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 10a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+              </svg>
+              <svg id="moon-icon" class="block dark:hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+              </svg>
+            </button>
+          )}
+
+          <!-- Mobile Menu Button -->
+          <button id="mobile-menu-button" class="md:hidden" aria-label="Menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-gray-800">
+        <div class="container mx-auto px-4 py-2 flex flex-col">
+          <a href="/" class="py-2 hover:text-accent">Home</a>
+          <a href="/artworks" class="py-2 hover:text-accent">Artworks</a>
+          <a href="/exhibitions" class="py-2 hover:text-accent">Exhibitions</a>
+          <a href="/about" class="py-2 hover:text-accent">About</a>
+          <a href="/contact" class="py-2 hover:text-accent">Contact</a>
+
+          <!-- Social Media Links (Mobile) -->
+          <div class="flex gap-4 py-2">
+            {siteSettings.socials?.map((social) => (
+              <a
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-gray-600 hover:text-accent dark:text-gray-400"
+                aria-label={social.platform}
+              >
+                <span class="sr-only">{social.platform}</span>
+                <i class={`icon-${social.icon}`}></i>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-8">
+      <div class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3 class="font-bold text-lg mb-4">{siteSettings.title}</h3>
+            <p class="text-gray-600 dark:text-gray-400">{siteSettings.description}</p>
+          </div>
+
+          <div>
+            <h3 class="font-bold text-lg mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li><a href="/artworks" class="text-gray-600 dark:text-gray-400 hover:text-accent">Artworks</a></li>
+              <li><a href="/exhibitions" class="text-gray-600 dark:text-gray-400 hover:text-accent">Exhibitions</a></li>
+              <li><a href="/about" class="text-gray-600 dark:text-gray-400 hover:text-accent">About</a></li>
+              <li><a href="/contact" class="text-gray-600 dark:text-gray-400 hover:text-accent">Contact</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-bold text-lg mb-4">Connect</h3>
+            <div class="flex gap-4">
+              {siteSettings.socials?.map((social) => (
+                <a
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-gray-600 hover:text-accent dark:text-gray-400"
+                  aria-label={social.platform}
+                >
+                  <span class="sr-only">{social.platform}</span>
+                  <i class={`icon-${social.icon}`}></i>
+                </a>
+              ))}
+            </div>
+
+            {siteSettings.features?.newsletter && (
+              <div class="mt-4">
+                <h4 class="font-medium mb-2">Subscribe to our newsletter</h4>
+                <form class="flex gap-2">
+                  <input
+                    type="email"
+                    placeholder="Your email"
+                    class="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 flex-1"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    class="px-4 py-2 bg-accent text-white rounded-md hover:bg-opacity-90"
+                  >
+                    Subscribe
+                  </button>
+                </form>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div class="border-t border-gray-200 dark:border-gray-800 mt-8 pt-6 text-sm text-gray-600 dark:text-gray-400">
+          <p>&copy; {new Date().getFullYear()} {siteSettings.title}. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu toggle
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+
+      if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+        });
+      }
+
+      // Dark mode toggle
+      const themeToggle = document.getElementById('theme-toggle');
+
+      if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+          const isDark = document.documentElement.classList.toggle('dark');
+          localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+      }
+    </script>
+  </body>
+</html>

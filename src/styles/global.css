@@ -1,1 +1,12 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+    --font-display: var(--font-karla);
+}
+
+@layer utilities {
+    [x-cloak] {
+        display: none;
+    }
+}

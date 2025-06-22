@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -16,5 +16,16 @@ export default defineConfig({
   },
 
   adapter: vercel(),
-  integrations: [mdx(), alpinejs()]
+  integrations: [mdx(), alpinejs()],
+  experimental: {
+    fonts: [{
+      provider: fontProviders.bunny(),
+      name: "Black Han Sans",
+      cssVariable: "--font-black-han"
+    }, {
+      provider: fontProviders.bunny(),
+      name: "Karla",
+      cssVariable: "--font-karla"
+    }]
+  }
 });
