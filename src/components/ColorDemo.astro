@@ -1,0 +1,289 @@
+---
+// ColorDemo.astro - A component to showcase our color system
+---
+
+<div class="color-demo">
+    <h2 class="text-2xl font-title mb-6">Color System Demo</h2>
+
+    <div class="grid gap-8">
+        <!-- Primary and secondary colors -->
+        <section>
+            <h3 class="text-xl mb-4">Brand Colors</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Primary colors -->
+                <div class="space-y-4">
+                    <h4 class="font-semibold">Primary</h4>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="color-swatch">
+                            <div class="h-16 bg-primary-dark rounded-t-md">
+                            </div>
+                            <div class="p-2 text-xs">
+                                <p class="font-mono">primary-dark</p>
+                            </div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="h-16 bg-primary rounded-t-md"></div>
+                            <div class="p-2 text-xs">
+                                <p class="font-mono">primary</p>
+                            </div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="h-16 bg-primary-light rounded-t-md">
+                            </div>
+                            <div class="p-2 text-xs">
+                                <p class="font-mono">primary-light</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secondary colors -->
+                <div class="space-y-4">
+                    <h4 class="font-semibold">Secondary</h4>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="color-swatch">
+                            <div class="h-16 bg-secondary-dark rounded-t-md">
+                            </div>
+                            <div class="p-2 text-xs">
+                                <p class="font-mono">secondary-dark</p>
+                            </div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="h-16 bg-secondary rounded-t-md"></div>
+                            <div class="p-2 text-xs">
+                                <p class="font-mono">secondary</p>
+                            </div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="h-16 bg-secondary-light rounded-t-md">
+                            </div>
+                            <div class="p-2 text-xs">
+                                <p class="font-mono">secondary-light</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Semantic colors -->
+        <section>
+            <h3 class="text-xl mb-4">Semantic Colors</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Background and surfaces -->
+                <div class="space-y-4">
+                    <h4 class="font-semibold">Background & Surfaces</h4>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="color-swatch">
+                            <div
+                                class="h-16 bg-background rounded-t-md border border-border"
+                            >
+                            </div>
+                            <div class="p-2 text-xs">
+                                <p class="font-mono">background</p>
+                            </div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="h-16 bg-surface rounded-t-md"></div>
+                            <div class="p-2 text-xs">
+                                <p class="font-mono">surface</p>
+                            </div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="h-16 bg-muted rounded-t-md"></div>
+                            <div class="p-2 text-xs">
+                                <p class="font-mono">muted</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Foregrounds -->
+                <div class="space-y-4">
+                    <h4 class="font-semibold">Foreground & Text</h4>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="color-swatch">
+                            <div class="h-16 bg-foreground rounded-t-md"></div>
+                            <div class="p-2 text-xs">
+                                <p class="font-mono">foreground</p>
+                            </div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="h-16 bg-muted-foreground rounded-t-md">
+                            </div>
+                            <div class="p-2 text-xs">
+                                <p class="font-mono">muted-foreground</p>
+                            </div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="h-16 bg-accent-foreground rounded-t-md">
+                            </div>
+                            <div class="p-2 text-xs">
+                                <p class="font-mono">accent-foreground</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Status colors -->
+        <section>
+            <h3 class="text-xl mb-4">Status Colors</h3>
+            <div class="grid grid-cols-4 gap-2">
+                <div class="color-swatch">
+                    <div class="h-16 bg-success rounded-t-md"></div>
+                    <div class="p-2 text-xs">
+                        <p class="font-mono">success</p>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="h-16 bg-warning rounded-t-md"></div>
+                    <div class="p-2 text-xs">
+                        <p class="font-mono">warning</p>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="h-16 bg-error rounded-t-md"></div>
+                    <div class="p-2 text-xs">
+                        <p class="font-mono">error</p>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="h-16 bg-info rounded-t-md"></div>
+                    <div class="p-2 text-xs">
+                        <p class="font-mono">info</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- UI component examples -->
+        <section>
+            <h3 class="text-xl mb-4">Component Examples</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-6 bg-surface rounded-lg shadow-md">
+                    <h4 class="font-semibold mb-3">Light Mode Card</h4>
+                    <p class="text-foreground mb-4">
+                        This is regular text on a card.
+                    </p>
+                    <p class="text-muted-foreground text-sm mb-4">
+                        This is muted text for less important information.
+                    </p>
+                    <div class="flex gap-2">
+                        <button
+                            class="px-4 py-2 bg-primary text-primary-foreground rounded-md"
+                            >Primary Button</button
+                        >
+                        <button
+                            class="px-4 py-2 bg-secondary text-secondary-foreground rounded-md"
+                            >Secondary Button</button
+                        >
+                    </div>
+                </div>
+
+                <div class="p-6 dark bg-surface rounded-lg shadow-md">
+                    <h4 class="font-semibold mb-3 text-foreground">
+                        Dark Mode Card
+                    </h4>
+                    <p class="text-foreground mb-4">
+                        This is regular text on a dark card.
+                    </p>
+                    <p class="text-muted-foreground text-sm mb-4">
+                        This is muted text for less important information.
+                    </p>
+                    <div class="flex gap-2">
+                        <button
+                            class="px-4 py-2 bg-primary text-primary-foreground rounded-md"
+                            >Primary Button</button
+                        >
+                        <button
+                            class="px-4 py-2 bg-secondary text-secondary-foreground rounded-md"
+                            >Secondary Button</button
+                        >
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accessibility demonstration -->
+        <section>
+            <h3 class="text-xl mb-4">Accessibility Contrast</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-6 bg-primary rounded-lg">
+                    <p class="text-primary-foreground font-medium">
+                        Text on primary background
+                    </p>
+                    <p class="text-primary-foreground/80 text-sm">
+                        Slightly transparent text (80%)
+                    </p>
+                    <div class="mt-4 p-3 bg-primary-dark rounded">
+                        <p class="text-primary-foreground text-sm">
+                            Nested darker background
+                        </p>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-secondary rounded-lg">
+                    <p class="text-secondary-foreground font-medium">
+                        Text on secondary background
+                    </p>
+                    <p class="text-secondary-foreground/80 text-sm">
+                        Slightly transparent text (80%)
+                    </p>
+                    <div class="mt-4 p-3 bg-secondary-dark rounded">
+                        <p class="text-secondary-foreground text-sm">
+                            Nested darker background
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dark mode toggle demo -->
+        <section class="mt-6">
+            <div class="p-6 rounded-lg border border-border" x-data>
+                <h3 class="text-xl mb-4">Dark Mode Toggle</h3>
+                <div class="flex items-center gap-3 mb-4">
+                    <button
+                        class="px-4 py-2 bg-surface border border-border rounded-md"
+                        x-on:click="$store.darkMode.toggle()"
+                        x-text="$store.darkMode.value ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+                    ></button>
+                    <span class="text-sm text-muted-foreground"
+                        >Click to toggle</span
+                    >
+                </div>
+
+                <div
+                    class="p-6 rounded-lg transition-colors duration-300"
+                    :class="$store.darkMode.value ? 'dark bg-surface' : 'bg-surface'"
+                >
+                    <h4 class="font-semibold mb-3 text-foreground">
+                        Dynamic Card
+                    </h4>
+                    <p class="text-foreground mb-4">
+                        This card changes with the dark mode toggle.
+                    </p>
+                    <div class="flex gap-2">
+                        <button
+                            class="px-4 py-2 bg-primary text-primary-foreground rounded-md"
+                            >Primary Button</button
+                        >
+                        <button
+                            class="px-4 py-2 bg-secondary text-secondary-foreground rounded-md"
+                            >Secondary Button</button
+                        >
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<style>
+    @reference "@/styles/global.css"
+    .color-swatch {
+        @apply border border-border rounded-md overflow-hidden;
+    }
+</style>

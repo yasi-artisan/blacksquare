@@ -1,12 +1,142 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* Custom dark mode variant */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
+    /* Base font families */
     --font-display: var(--font-karla);
+    --font-title: var(--font-bigshot-one);
+    --font-body: var(--font-karla);
+
+    /* Color system using OKLCH for better color perception and accessibility */
+
+    /* Base light mode colors */
+    --background-base: oklch(0.98 0.01 90); /* very light background */
+    --surface-base: oklch(
+        0.95 0.015 90
+    ); /* subtle contrast for cards/elements */
+    --foreground-base: oklch(0.15 0.02 270); /* dark text for light mode */
+
+    /* Base dark mode colors */
+    --background-base-dark: oklch(0.15 0.02 270); /* deep background */
+    --surface-base-dark: oklch(
+        0.2 0.03 270
+    ); /* subtle contrast for cards/elements */
+    --foreground-base-dark: oklch(0.96 0.01 90); /* light text for dark mode */
+
+    /* Brand colors */
+    --primary-base: oklch(0.592 0.249 264); /* vibrant purple */
+    --primary-light: oklch(0.7 0.18 264); /* lighter variant */
+    --primary-dark: oklch(0.45 0.25 264); /* darker variant */
+
+    --secondary-base: oklch(0.65 0.2 35); /* warm gold/orange */
+    --secondary-light: oklch(0.75 0.15 35); /* lighter variant */
+    --secondary-dark: oklch(0.55 0.22 35); /* darker variant */
+
+    /* Status colors */
+    --success-base: oklch(0.65 0.2 145); /* green */
+    --warning-base: oklch(0.75 0.2 85); /* amber/yellow */
+    --error-base: oklch(0.65 0.25 30); /* red */
+    --info-base: oklch(0.65 0.2 230); /* blue */
+
+    /* Neutral colors */
+    --white: oklch(1 0 0);
+    --black: oklch(0.1 0 0);
+
+    /* UI element colors */
+    --border-base: oklch(0.85 0.02 270);
+    --border-base-dark: oklch(0.3 0.03 270);
+
+    --input-base: oklch(0.9 0.02 270);
+    --input-base-dark: oklch(0.25 0.03 270);
+
+    --muted-base: oklch(0.65 0.03 270);
+    --muted-base-dark: oklch(0.35 0.03 270);
+
+    --muted-foreground-base: oklch(0.4 0.03 270);
+    --muted-foreground-base-dark: oklch(0.8 0.03 270);
+
+    /* Shadow colors */
+    --shadow-color-light: 220 3% 15%;
+    --shadow-color-dark: 220 40% 2%;
+
+    /* Theme color assignments */
+    --color-background: var(--background-base);
+    --color-surface: var(--surface-base);
+    --color-foreground: var(--foreground-base);
+
+    --color-primary: var(--primary-base);
+    --color-primary-light: var(--primary-light);
+    --color-primary-dark: var(--primary-dark);
+    --color-primary-foreground: var(--white);
+
+    --color-secondary: var(--secondary-base);
+    --color-secondary-light: var(--secondary-light);
+    --color-secondary-dark: var(--secondary-dark);
+    --color-secondary-foreground: var(--white);
+
+    --color-success: var(--success-base);
+    --color-warning: var(--warning-base);
+    --color-error: var(--error-base);
+    --color-info: var(--info-base);
+
+    --color-muted: var(--muted-base);
+    --color-muted-foreground: var(--muted-foreground-base);
+
+    --color-border: var(--border-base);
+    --color-input: var(--input-base);
+
+    --color-accent: var(--primary-light);
+    --color-accent-foreground: var(--foreground-base);
+
+    --color-shadow: var(--shadow-color-light);
+    --color-focus-ring: var(--primary-base);
 }
 
+/* Dark mode color assignments */
+.dark {
+    --color-background: var(--background-base-dark);
+    --color-surface: var(--surface-base-dark);
+    --color-foreground: var(--foreground-base-dark);
+
+    --color-muted: var(--muted-base-dark);
+    --color-muted-foreground: var(--muted-foreground-base-dark);
+
+    --color-border: var(--border-base-dark);
+    --color-input: var(--input-base-dark);
+
+    --color-accent-foreground: var(--black);
+
+    --color-shadow: var(--shadow-color-dark);
+}
+
+/* Utility classes */
 @layer utilities {
+    /* Hide Alpine.js elements before initialization */
     [x-cloak] {
         display: none;
+    }
+
+    /* High contrast mode adjustments for accessibility */
+    @media (forced-colors: active) {
+        .forced-colors-adjust {
+            forced-color-adjust: auto;
+        }
+    }
+
+    /* Smooth scrolling */
+    .scroll-smooth {
+        scroll-behavior: smooth;
+    }
+
+    /* Focus styles for keyboard navigation */
+    .focus-visible\:ring {
+        @apply outline-none;
+    }
+
+    .focus-visible\:ring:focus-visible {
+        @apply outline-none ring-2 ring-primary ring-offset-2;
     }
 }

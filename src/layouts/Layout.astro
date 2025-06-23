@@ -13,10 +13,30 @@ interface Props {
 const { title, class: classNames, ...props } = Astro.props;
 ---
 
-<!doctype html>
 <html lang="en" class="scroll-smooth">
-    <Head {title} />
-    <body x-data x-cloak>
+    <Head {title}>
+        <script is:inline>
+            const theme = (() => {
+                if (
+                    typeof localStorage !== "undefined" &&
+                    localStorage.getItem("darkMode")
+                ) {
+                    return localStorage.getItem("darkMode") === "true";
+                }
+                if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                    return true;
+                }
+                return false;
+            })();
+
+            if (theme) {
+                document.documentElement.classList.add("dark");
+            } else {
+                document.documentElement.classList.remove("dark");
+            }
+        </script>
+    </Head>
+    <body x-data class="bg-background transition-colors">
         <Sheet class:list={[classNames]} {...props}>
             <MainNav slot="aside" />
 
@@ -26,3 +46,19 @@ const { title, class: classNames, ...props } = Astro.props;
         </Sheet>
     </body>
 </html>
+
+<script>
+    import Alpine from "alpinejs";
+
+    document.addEventListener("alpine:init", () => {
+        Alpine.store("darkMode", {
+            value: document.documentElement.classList.contains("dark"),
+
+            toggle() {
+                this.value = !this.value;
+                document.documentElement.classList.toggle("dark", this.value);
+                localStorage.setItem("darkMode", this.value);
+            },
+        });
+    });
+</script>

@@ -42,16 +42,31 @@ const { sitename } = settings;
         <slot name="footer" />
     </footer> -->
 
-    <div class="sheet__main">
-        <header class="sticky top-0">
+    <div
+        class="sheet__main"
+        :class="open ? 'overflow-y-hidden' : 'overflow-y-auto'"
+        {...props}
+    >
+        <header class="sticky top-0 z-10">
             <button
-                @click.stop="open = !open"
-                aria-controls="drawer"
+                class="group row-start-1 z-10 flex gap-y-4 bg-background justify-center h-24 flex-col py-4 px-4 hover:bg-accent w-24"
                 :aria-expanded="open.toString()"
+                aria-controls="drawer"
+                @click.stop="open = !open"
+                :class="open ? 'items-center': 'items-start'"
             >
-                Menu2
+                <span
+                    class="w-14 h-0.5 transition-all bg-foreground block rounded-lg"
+                    :class="[open ? '-rotate-45 -translate-x-0.5 translate-y-[9px] group-hover:w-[47px]' : 'group-hover:w-[30px]']"
+                ></span>
+                <span
+                    class="w-14 group-hover:w-[49px] transition-all h-0.5 bg-foreground block rounded-lg"
+                    x-show="!open"></span>
+                <span
+                    class="w-14 h-0.5 transition-all bg-foreground block rounded-lg"
+                    :class="[open ? 'rotate-45 -translate-x-0.5 -translate-y-[9px] group-hover:w-[47px]' : 'group-hover:w-[45px]']"
+                ></span>
             </button>
-
             {sitename}
         </header>
         <slot />
@@ -75,6 +90,7 @@ const { sitename } = settings;
             "drawer main"
             "drawer main";
         min-height: 100svh;
+        overflow-x: clip;
         transition: grid-template-columns var(--drawer-transition-duration)
             var(--drawer-transition-timing);
     }
@@ -82,7 +98,7 @@ const { sitename } = settings;
     .sheet__main {
         grid-area: main;
         scroll-snap-type: y mandatory;
-        overflow-y: auto;
+        width: 100vw;
         height: 100svh;
     }
 

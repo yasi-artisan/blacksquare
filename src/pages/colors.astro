@@ -1,0 +1,120 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ColorDemo from "../components/ColorDemo.astro";
+---
+
+<Layout title="Color System | Blacksquare">
+    <main class="container py-12">
+        <h1 class="text-4xl font-title mb-8">Color System</h1>
+        <div class="prose prose-zinc dark:prose-invert mb-8 max-w-none">
+            <p>
+                This page demonstrates our comprehensive color system built with
+                Tailwind v4.1, using OKLCH color space for improved color
+                perception and accessibility.
+            </p>
+            <p>
+                The color system is designed to work seamlessly in both light
+                and dark modes, with appropriate contrast ratios for text and
+                background elements to ensure WCAG compliance.
+            </p>
+        </div>
+
+        <div class="mb-8 p-4 bg-surface rounded-lg border border-border">
+            <h2 class="text-2xl font-title mb-4">How to Use</h2>
+            <div class="prose prose-zinc dark:prose-invert max-w-none">
+                <p>
+                    Our color system is based on semantic variables that adapt
+                    to light and dark modes:
+                </p>
+                <ul>
+                    <li><code>bg-background</code> - Main page background</li>
+                    <li>
+                        <code>bg-surface</code> - Card and component backgrounds
+                    </li>
+                    <li><code>text-foreground</code> - Primary text color</li>
+                    <li>
+                        <code>text-muted-foreground</code> - Secondary text color
+                    </li>
+                    <li>
+                        <code>bg-primary</code> / <code>bg-secondary</code> - Brand
+                        colors
+                    </li>
+                    <li>
+                        <code>bg-success</code> / <code>bg-error</code> / etc - Status
+                        colors
+                    </li>
+                </ul>
+                <p>
+                    All colors automatically adjust for dark mode using CSS
+                    variables and Tailwind's dark mode support.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-12">
+            <ColorDemo />
+        </div>
+
+        <div class="mt-16 p-6 bg-surface rounded-lg border border-border">
+            <h2 class="text-2xl font-title mb-4">Theme Customization</h2>
+            <div class="prose prose-zinc dark:prose-invert max-w-none">
+                <p>
+                    Colors can be customized by modifying the CSS variables in
+                    <code>src/styles/global.css</code> and the Tailwind configuration
+                    in
+                    <code>tailwind.config.js</code>.
+                </p>
+                <p>
+                    Colors are defined using OKLCH color space for better
+                    perception and accessibility:
+                </p>
+                <pre
+                    class="p-4 bg-muted rounded-md overflow-auto">
+/* In @theme block */
+--color-primary: var(--primary-base);
+--primary-base: oklch(0.592 0.249 264); /* vibrant purple */
+--primary-light: oklch(0.7 0.18 264); /* lighter variant */
+--primary-dark: oklch(0.45 0.25 264); /* darker variant */</pre>
+                <p>The OKLCH color format provides these benefits:</p>
+                <ul>
+                    <li>First value (0.592) is lightness (0-1)</li>
+                    <li>Second value (0.249) is chroma/saturation</li>
+                    <li>Third value (264) is hue angle (0-360)</li>
+                    <li>Consistent lightness across different hues</li>
+                    <li>Better perceptual uniformity compared to RGB or HSL</li>
+                    <li>Appropriate contrast ratios for accessibility</li>
+                    <li>Wide gamut color support for modern displays</li>
+                </ul>
+                <p class="mt-4">
+                    With Tailwind v4.1, we use these colors directly in CSS:
+                </p>
+                <pre
+                    class="p-4 bg-muted rounded-md overflow-auto">
+<!-- .bg-primary { background: oklch(var(--color-primary)); }
+.text-primary { color: oklch(var(--color-primary)); } -->
+                    </pre>
+            </div>
+        </div>
+
+        <div class="mt-12 p-6 bg-muted rounded-lg">
+            <h2 class="text-2xl font-title mb-4">Dark Mode Toggle</h2>
+            <div class="flex items-center gap-3 mb-4">
+                <button
+                    class="px-4 py-2 bg-surface text-foreground border rounded-md"
+                    x-on:click="$store.darkMode.toggle()"
+                    x-text="$store.darkMode.value ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+                ></button>
+                <span class="text-sm text-muted-foreground"
+                    >Toggle to see how colors adapt</span
+                >
+            </div>
+
+            <div class="mt-4 text-sm">
+                <p class="text-muted-foreground">
+                    Dark mode toggles the <code>.dark</code> class on the root element,
+                    which triggers variable changes in our global.css file.
+                </p>
+            </div>
+        </div>
+    </main>
+</Layout>

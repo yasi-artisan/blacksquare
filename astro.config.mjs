@@ -1,31 +1,34 @@
 // @ts-check
-import { defineConfig, fontProviders } from 'astro/config';
+import { defineConfig, fontProviders } from "astro/config";
 
-import tailwindcss from '@tailwindcss/vite';
+import tailwindcss from "@tailwindcss/vite";
 
-import vercel from '@astrojs/vercel';
+import vercel from "@astrojs/vercel";
 
-import mdx from '@astrojs/mdx';
+import mdx from "@astrojs/mdx";
 
-import alpinejs from '@astrojs/alpinejs';
+import alpinejs from "@astrojs/alpinejs";
 
 // https://astro.build/config
 export default defineConfig({
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
   },
 
   adapter: vercel(),
-  integrations: [mdx(), alpinejs()],
+  integrations: [mdx(), alpinejs({ entrypoint: "/src/entrypoint" })],
   experimental: {
-    fonts: [{
-      provider: fontProviders.bunny(),
-      name: "Black Han Sans",
-      cssVariable: "--font-black-han"
-    }, {
-      provider: fontProviders.bunny(),
-      name: "Karla",
-      cssVariable: "--font-karla"
-    }]
-  }
+    fonts: [
+      {
+        provider: fontProviders.bunny(),
+        name: "Bigshot One",
+        cssVariable: "--font-bigshot-one",
+      },
+      {
+        provider: fontProviders.bunny(),
+        name: "Karla",
+        cssVariable: "--font-karla",
+      },
+    ],
+  },
 });

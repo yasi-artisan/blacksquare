@@ -2,29 +2,83 @@
 import Layout from "../layouts/Layout.astro";
 import { getSiteSettings } from "../lib/settings";
 import { Image } from "astro:assets";
-import { getCollection } from "astro:content";
+import image1 from "../assets/origami-a1.jpg";
+import image2 from "../assets/origami-a2.jpg";
+import image4 from "../assets/origami-a4.jpg";
+import image5 from "../assets/origami-a5.jpg";
+
+const frames = [
+    {
+        src: image4,
+        alt: "keyframe1",
+        imageClass: "w-[400px] h-[440px] object-cover",
+        title: "Installation",
+        href: "/installation",
+    },
+    {
+        src: image2,
+        alt: "keyframe2",
+        imageClass: "w-[400px] object-contain",
+        title: "Papermaking/Printmaking",
+        href: "/papermaking-printmaking",
+    },
+    {
+        src: image1,
+        alt: "keyframe3",
+        imageClass: "w-[440px] object-contain",
+        title: "Painting",
+        href: "/painting",
+    },
+    {
+        src: image5,
+        alt: "keyframe4",
+        imageClass: "w-[400px] h-[380px] object-cover",
+        title: "Community Project",
+        href: "/community",
+    },
+];
 
 // Get site settings
 const siteSettings = await getSiteSettings();
-
-// Get featured artworks (non-draft only)
-const featuredArtworks = await getCollection("artwork", ({ data }) => {
-    return !data.isDraft && data.featured?.image;
-});
 ---
 
-<Layout>
-    <section class="h-svh snap-start">
-        <h2>Featured Artworks2</h2>
-        <p>This is the content of the page.</p>
-    </section>
-    <section class="h-svh snap-start">
-        <h2>Test this</h2>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem ex
-            earum eius provident. Molestiae beatae ad laborum accusantium
-            cumque! Doloribus repudiandae tempora nisi facere dolor iusto optio
-            alias aliquam atque.
+<Layout
+    x-data=`{
+    activeIndex: 1,
+    frames: 4,
+    handleScroll ({target}) {
+        const height = (target.scrollHeight - target.clientHeight)
+        const ratio = Math.ceil(target.scrollTop/height*this.frames)
+        this.activeIndex = ratio === 0 ? 1 : ratio;
+        }
+    }`
+    @scroll.throttle="handleScroll"
+>
+    <div
+        class="h-svh sticky top-[40px] flex justify-center items-center grid-cols-2"
+    >
+        <p class="hidden md:block col-start-1">
+            <span x-text="activeIndex"></span>/<span x-text="frames"></span>
         </p>
-    </section>
+        {
+            frames.map((frame, index) => (
+                <section
+                    class="col-start-2"
+                    x-show={`activeIndex === ${index + 1}`}
+                >
+                    <Image
+                        class={frame.imageClass}
+                        src={frame.src}
+                        loading="eager"
+                        alt={frame.alt}
+                    />
+                    <h2 class="text-xl font-semibold text-center underline decoration-wavy underline-offset-4 decoration-zinc-900/0 hover:decoration-zinc-900 transition-colors duration-300">
+                        <a href={frame.href}>{frame.title}</a>
+                    </h2>
+                </section>
+            ))
+        }
+    </div>
+
+    <div class="h-[120vh] scroll-trigger"></div>
 </Layout>

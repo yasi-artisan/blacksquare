@@ -1,10 +1,10 @@
 ---
-import {Font} from "astro:assets"
+import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
-interface Props  {
+interface Props {
     title?: string;
 }
-const {title = "Yasaman Moussavi's Official Website"} = Astro.props
+const { title = "Yasaman Moussavi's Official Website" } = Astro.props;
 ---
 
 <head>
@@ -12,7 +12,7 @@ const {title = "Yasaman Moussavi's Official Website"} = Astro.props
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <Font cssVariable="--font-black-han" preload />
+    <Font cssVariable="--font-bigshot-one" preload />
     <Font cssVariable="--font-karla" preload />
     <title>{title}</title>
     <ClientRouter />
