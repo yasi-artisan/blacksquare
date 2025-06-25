@@ -9,6 +9,8 @@ import mdx from "@astrojs/mdx";
 
 import alpinejs from "@astrojs/alpinejs";
 
+import icon from "astro-icon";
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
@@ -16,7 +18,7 @@ export default defineConfig({
   },
 
   adapter: vercel(),
-  integrations: [mdx(), alpinejs({ entrypoint: "/src/entrypoint" })],
+  integrations: [mdx(), alpinejs({ entrypoint: "/src/entrypoint" }), icon()],
   experimental: {
     fonts: [
       {

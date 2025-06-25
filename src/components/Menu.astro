@@ -1,0 +1,109 @@
+---
+// src/components/Menu.astro
+import RecursiveMenu from "./Menu.astro";
+import type { MenuItem } from "@/content.config";
+import { Icon } from "astro-icon/components";
+export interface Props {
+    items: MenuItem[];
+    class?: string;
+    level?: number;
+    [key: string]: unknown;
+}
+
+const { items, level = 1, class: className ='', ...rest } = Astro.props;
+
+const sortedItems = items.sort(
+    (a, b) => (a.order ?? Infinity) - (b.order ?? Infinity),
+);
+const path = "/src/components/widgets/nav/*.astro";
+
+const components = import.meta.glob<
+    Record<string, { default: unknown; file: unknown; url: unknown }>
+>("/src/components/widgets/nav/*.astro", {
+    eager: true,
+});
+---
+
+<ul class:list={["nested-menu ", className]} {...rest}>
+    {
+        sortedItems.map((item) => {
+            const Component =
+                item.type === "component"
+                    ? components[path.replace("*", item.component)].default
+                    : null;
+
+            return (
+                <li >
+                    {/* Render a link */}
+                    {item.type === "link" && (
+                        <a class="px-4 py-4 text-2xl block hover:bg-accent transition-colors" href={item.slug}>{item.label}</a>
+                    )}
+
+                    {/* Render a folder as a non-clickable label */}
+                    {item.type === "folder" && (
+
+                    <input type="checkbox" name="menuOptions"
+                    data-level={level}
+                    @click=`(e) => {
+                        const currentLevel = e.target.dataset.level;
+                        document.querySelectorAll("input[type='checkbox'][data-level='" + currentLevel + "']").forEach(checkbox => {
+                            if (checkbox !== e.target) {
+                                checkbox.checked = false;
+                            }
+                        });
+                    }`
+                    class="hidden peer" id={item.label.toLowerCase()}  >
+                    <label for={item.label.toLowerCase()}
+                    class="text-2xl hover:bg-accent peer-checked:translate-x-0 -translate-x-1/2 transition-all duration-200 parent-label grid grid-cols-2 w-[200%]">
+                        <span class="w-6 h-6 rotate-45 border-l-3 border-b-3 self-center ml-6" />
+                      <span class=" px-4 py-4 ">{item.label}</span >
+                    </label>
+                  )}
+
+                    {/* Render a dynamic component */}
+                    {item.type === "component" && (
+                        <div class="component-item">
+                            <span class="component-label">{item.label}</span>
+                            {Component ? (
+                                <Component />
+                            ) : (
+                                <p class="error">
+                                    Component not found: {item.component}
+                                </p>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Recursive call for children - only for folders */}
+                    {item.type === "folder" &&
+                        item.children &&
+                        item.children.length > 0 && (
+                            <RecursiveMenu items={item.children} level={level + 1} />
+                        )}
+                </li>
+            );
+        })
+    }
+</ul>
+
+<style scoped>
+    @reference "@/styles/global.css"
+    .nested-menu {
+
+    }
+
+    .nested-menu li {
+        ul {
+            @apply invisible translate-x-full h-0 overflow-clip transition-all duration-200;
+            interpolate-size: allow-keywords;
+        }
+        input[type="checkbox"] {
+            &:checked {
+                &~ul {
+                    @apply visible h-auto translate-x-0 ;
+                }
+            }
+        }
+    }
+
+</style>

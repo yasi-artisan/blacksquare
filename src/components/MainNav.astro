@@ -1,9 +1,13 @@
+---
+import { getCollection } from "astro:content";
+import Menu from "@/components/Menu.astro";
+// Get menu data from the content collection.
+const menuEntries = await getCollection("menu");
+const menuItems = menuEntries.map((entry) => entry.data);
+---
+
 <header>
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
-        </ul>
+    <nav class="w-full overflow-x-clip">
+        <Menu items={menuItems} />
     </nav>
 </header>

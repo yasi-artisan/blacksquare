@@ -1,11 +1,16 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import { getSiteSettings } from "../lib/settings";
 import { Image } from "astro:assets";
-import image1 from "../assets/origami-a1.jpg";
-import image2 from "../assets/origami-a2.jpg";
-import image4 from "../assets/origami-a4.jpg";
-import image5 from "../assets/origami-a5.jpg";
+import Layout from "@/layouts/Layout.astro";
+import Menu from "@/components/Menu.astro";
+import { getEntries, getEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import { getSiteSettings } from "../lib/settings";
+import type { MenuItem } from "@/content.config";
+
+import image1 from "../assets/images/origami-a1.jpg";
+import image2 from "../assets/images/origami-a2.jpg";
+import image4 from "../assets/images/origami-a4.jpg";
+import image5 from "../assets/images/origami-a5.jpg";
 
 const frames = [
     {
@@ -48,7 +53,7 @@ const siteSettings = await getSiteSettings();
     frames: 4,
     handleScroll ({target}) {
         const height = (target.scrollHeight - target.clientHeight)
-        const ratio = Math.ceil(target.scrollTop/height*this.frames)
+        const ratio = Math.ceil(target.scrollTop/height * this.frames)
         this.activeIndex = ratio === 0 ? 1 : ratio;
         }
     }`

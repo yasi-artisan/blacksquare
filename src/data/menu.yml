@@ -1,0 +1,30 @@
+artworks:
+  label: "Artworks"
+  type: "folder"
+  order: 1
+  children:
+    - label: "printmaking"
+      type: "link"
+      slug: "/services/web-development"
+      order: 1
+    - label: "painting"
+      type: "link"
+      slug: "/services/seo"
+      order: 2
+    - label: "Community Projects"
+      type: "link"
+      slug: "/services/community-projects"
+      order: 3
+timeline:
+  label: "Timeline"
+  type: "folder"
+  children:
+    - label: "Summer Sale"
+      type: "component"
+      component: "SummerSale"
+      order: 1
+about:
+  label: "About Us"
+  type: "link"
+  slug: "/about"
+  order: 3

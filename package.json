@@ -17,9 +17,14 @@
     "@types/alpinejs": "^3.13.11",
     "alpinejs": "^3.14.9",
     "astro": "^5.10.0",
-    "tailwindcss": "^4.1.10"
+    "astro-icon": "^1.1.5",
+    "tailwindcss": "^4.1.10",
+    "taos": "^1.0.5"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.16"
+    "@iconify-json/hugeicons": "^1.2.5",
+    "@iconify-json/svg-spinners": "^1.2.2",
+    "@tailwindcss/typography": "^0.5.16",
+    "@types/alpinejs__intersect": "^3.13.4"
   }
 }

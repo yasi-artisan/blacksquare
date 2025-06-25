@@ -13,61 +13,54 @@ const { sitename } = settings;
 
 <div
     class="sheet"
-    x-data="{ open: false }"
+    x-data="{ open: true }"
     :class="{ 'sheet--drawer-open': open }"
     @keyup.esc="open = false"
 >
-    <!-- <header class="sheet__header">
-        <button
-            @click.stop="open = !open"
-            aria-controls="drawer"
-            :aria-expanded="open.toString()"
-        >
-            Menu
-        </button>
-        {sitename}
-    </header> -->
-
-    <aside class="sheet__drawer" id="drawer" @click.outside="open = false">
+    <!-- Drawer -->
+    <aside
+        class="sheet__drawer sm:pt-24 flex flex-col bg-base border-r-2"
+        id="drawer"
+        @click.outside="open = false"
+        @keyup.esc="open = false"
+    >
         <div class="sheet__drawer-inner">
             <slot name="aside" />
         </div>
+        <button class="py-4 border-t sm:hidden" @click="open = false"
+            >close</button
+        >
     </aside>
-
-    <!-- <main class="sheet__content">
-        <slot />
-    </main>
-
-    <footer class="sheet__footer">
-        <slot name="footer" />
-    </footer> -->
-
     <div
         class="sheet__main"
-        :class="open ? 'overflow-y-hidden' : 'overflow-y-auto'"
+        :class="open ? 'overflow-y-clip' : 'overflow-y-auto'"
         {...props}
     >
-        <header class="sticky top-0 z-10">
+        <header
+            class="sticky top-0 z-10 overflow-x-visible flex gap-4 items-center"
+        >
             <button
-                class="group row-start-1 z-10 flex gap-y-4 bg-background justify-center h-24 flex-col py-4 px-4 hover:bg-accent w-24"
+                class="group row-start-1 z-10 flex gap-y-4 bg-background justify-center h-24 flex-col py-4 px-4 hover:bg-accent/50 w-24"
                 :aria-expanded="open.toString()"
                 aria-controls="drawer"
                 @click.stop="open = !open"
-                :class="open ? 'items-center': 'items-start'"
+                :class="open ? '-translate-x-[calc(2px_+_100%)]': 'items-start'"
             >
                 <span
                     class="w-14 h-0.5 transition-all bg-foreground block rounded-lg"
-                    :class="[open ? '-rotate-45 -translate-x-0.5 translate-y-[9px] group-hover:w-[47px]' : 'group-hover:w-[30px]']"
+                    :class="[open ? '-rotate-45 translate-x-[0.45rem] translate-y-[9px] group-hover:w-[50px]' : 'group-hover:w-[30px]']"
                 ></span>
                 <span
                     class="w-14 group-hover:w-[49px] transition-all h-0.5 bg-foreground block rounded-lg"
                     x-show="!open"></span>
                 <span
                     class="w-14 h-0.5 transition-all bg-foreground block rounded-lg"
-                    :class="[open ? 'rotate-45 -translate-x-0.5 -translate-y-[9px] group-hover:w-[47px]' : 'group-hover:w-[45px]']"
+                    :class="[open ? 'rotate-45 translate-x-[0.45rem] -translate-y-[9px] group-hover:w-[50px]' : 'group-hover:w-[45px]']"
                 ></span>
             </button>
-            {sitename}
+            <h1 class="text-2xl font-semibold">
+                {sitename}
+            </h1>
         </header>
         <slot />
     </div>
@@ -75,7 +68,8 @@ const { sitename } = settings;
 
 <style scoped>
     :root {
-        --drawer-width: 280px;
+        --drawer-width: calc(40rem - 40px);
+        --drawer-height: 100vh;
         --drawer-transition-duration: 0.3s;
         --drawer-transition-timing: ease-in-out;
     }
@@ -84,15 +78,15 @@ const { sitename } = settings;
         display: grid;
         /* The first column is for the drawer, starts at 0 width */
         grid-template-columns: 0 1fr;
-        grid-template-rows: auto 1fr auto;
-        grid-template-areas:
-            "drawer main"
-            "drawer main"
-            "drawer main";
-        min-height: 100svh;
-        overflow-x: clip;
-        transition: grid-template-columns var(--drawer-transition-duration)
-            var(--drawer-transition-timing);
+        grid-template-rows: auto;
+        grid-template-areas: "drawer main";
+        height: 100svh;
+        overflow: clip;
+        transition:
+            grid-template-columns var(--drawer-transition-duration)
+                var(--drawer-transition-timing),
+            grid-template-rows var(--drawer-transition-duration)
+                var(--drawer-transition-timing);
     }
 
     .sheet__main {
@@ -100,6 +94,7 @@ const { sitename } = settings;
         scroll-snap-type: y mandatory;
         width: 100vw;
         height: 100svh;
+        overflow-x: visible;
     }
 
     /* When the drawer is open, change the first column's width */
@@ -107,26 +102,10 @@ const { sitename } = settings;
         grid-template-columns: var(--drawer-width) 1fr;
     }
 
-    .sheet__header {
-        grid-area: header;
-        height: 3rem;
-        display: flex;
-        align-items: center;
-        padding: 0 1rem;
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        background: Canvas; /* Use system UI colors for better UX */
-        border-bottom: 1px solid CanvasText;
-    }
-
     .sheet__drawer {
         grid-area: drawer;
-        /* Hides the content of the drawer while it's animating */
         overflow: hidden;
-        background: Canvas;
-        border-right: 1px solid CanvasText;
-        height: 100svh;
+        box-sizing: border-box;
     }
 
     /* Inner container ensures content doesn't get cut off and is scrollable */
@@ -134,28 +113,18 @@ const { sitename } = settings;
         width: var(--drawer-width);
         height: 100%;
         overflow-y: auto;
-        padding: 1rem;
     }
 
-    .sheet__content {
-        grid-area: content;
-        /* This is key: prevents content from being squished */
-        overflow-x: hidden;
-        padding: 1rem;
-    }
-
-    .sheet__footer {
-        grid-area: footer;
-        grid-column: 2; /* Ensure footer is only in the content column */
-        background: Canvas;
-        padding: 1rem;
-        border-top: 1px solid CanvasText;
-
-        scroll-snap-type-y: mandatory;
-    }
-
-    .sheet--drawer-open .sheet__footer {
-        /* When drawer is open, footer should also be in content column */
-        grid-column: 2;
+    @media (width <= 40rem) {
+        .sheet {
+            grid-template-columns: 1fr;
+            grid-template-rows: 0 auto;
+            grid-template-areas:
+                "drawer"
+                "main";
+        }
+        .sheet--drawer-open {
+            grid-template-rows: var(--drawer-height) auto;
+        }
     }
 </style>
