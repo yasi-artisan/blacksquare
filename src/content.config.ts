@@ -10,16 +10,15 @@ const artwork = defineCollection({
       tags: z.string().array().optional(),
       isDraft: z.boolean().default(true),
       medium: z.string().array().optional(),
-      slug: z.string().regex(/^[a-z0-9-]+$/),
       featured: z.object({
         alt: z.string().optional(),
         image: image(),
       }),
-      gallery: z.union([image(), z.string().url()]).array().optional(),
+      gallery: image().array().optional(),
     }),
 });
 
-const settings = defineCollection({
+const setting = defineCollection({
   loader: file("src/data/settings.yml"),
   schema: z.object({
     sitename: z.string(),
@@ -40,7 +39,7 @@ const settings = defineCollection({
   }),
 });
 
-const pages = defineCollection({
+const page = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/data/pages" }),
   schema: ({ image }) =>
     z.object({
@@ -54,6 +53,7 @@ const pages = defineCollection({
         })
         .optional(),
       isDraft: z.boolean().default(true),
+      template: z.enum(["default", "none"]).default("default"),
       type: z.enum(["default"]).default("default"),
     }),
 });
@@ -95,4 +95,4 @@ const menu = defineCollection({
   schema: MenuItemSchema,
 });
 
-export const collections = { artwork, settings, pages, menu };
+export const collections = { artwork, setting, page, menu };

@@ -1,0 +1,23 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { Image } from "astro:assets";
+import { TEMPLATES } from "@/lib/templates";
+import { getCollection, render } from "astro:content";
+
+const { page } = Astro.props;
+
+const { template, title } = page.data;
+const Template = TEMPLATES[template as keyof typeof TEMPLATES];
+
+export const getStaticPaths = async () => {
+    const pages = await getCollection("page", ({ data }) => !data.isDraft);
+    return pages.map((page) => ({
+        props: { page },
+        params: { slug: page.id },
+    }));
+};
+---
+
+<Layout {title} class="prose max-w-none mx-auto">
+    <Template {page} />
+</Layout>

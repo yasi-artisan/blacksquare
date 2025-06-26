@@ -7,10 +7,10 @@ import { getCollection } from "astro:content";
 import { getSiteSettings } from "../lib/settings";
 import type { MenuItem } from "@/content.config";
 
-import image1 from "../assets/images/origami-a1.jpg";
-import image2 from "../assets/images/origami-a2.jpg";
-import image4 from "../assets/images/origami-a4.jpg";
-import image5 from "../assets/images/origami-a5.jpg";
+import image1 from "../assets/images/origami-a1.png";
+import image2 from "../assets/images/origami-a2.png";
+import image4 from "../assets/images/origami-a4.png";
+import image5 from "../assets/images/origami-a5.png";
 
 const frames = [
     {
@@ -60,7 +60,7 @@ const siteSettings = await getSiteSettings();
     @scroll.throttle="handleScroll"
 >
     <div
-        class="h-svh sticky top-[40px] flex justify-center items-center grid-cols-2"
+        class="h-svh sticky top-[40px] flex justify-center items-center grid-cols-2 text-foreground"
     >
         <p class="hidden md:block col-start-1">
             <span x-text="activeIndex"></span>/<span x-text="frames"></span>

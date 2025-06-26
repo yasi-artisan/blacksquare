@@ -36,7 +36,7 @@ const { title, class: classNames, ...props } = Astro.props;
             }
         </script>
     </Head>
-    <body x-data class="bg-base transition-colors">
+    <body x-data>
         <Sheet class:list={[classNames]} {...props}>
             <MainNav slot="aside" />
 

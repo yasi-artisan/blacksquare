@@ -18,13 +18,32 @@ artworks:
 timeline:
   label: "Timeline"
   type: "folder"
+  order: 1
   children:
-    - label: "Summer Sale"
+    - label: "Chronicle"
       type: "component"
-      component: "SummerSale"
+      component: "YearCount"
       order: 1
 about:
   label: "About Us"
   type: "link"
   slug: "/about"
   order: 3
+
+contact:
+  label: "Contact"
+  type: "link"
+  slug: "/contact"
+  order: 4
+
+gallery:
+  label: "Gallery"
+  type: "link"
+  slug: "/gallery"
+  order: 5
+
+blog:
+  label: "Blog"
+  type: "link"
+  slug: "/blog"
+  order: 6

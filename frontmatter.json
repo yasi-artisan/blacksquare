@@ -15,7 +15,12 @@
         },
         {
           "name": "year",
-          "type": "number"
+          "type": "number",
+          "required": true,
+          "numberOptions": {
+            "min": 1950,
+            "max": 2200
+          }
         },
         {
           "name": "tags",
@@ -35,8 +40,16 @@
           "type": "fields",
           "title": "Featured",
           "fields": [
-            { "title": "Image", "name": "image", "type": "image" },
-            { "title": "Alt", "name": "alt", "type": "string" }
+            {
+              "title": "Image",
+              "name": "image",
+              "type": "image"
+            },
+            {
+              "title": "Alt",
+              "name": "alt",
+              "type": "string"
+            }
           ]
         },
         {
@@ -46,13 +59,141 @@
           "title": "Gallery"
         }
       ]
+    },
+    {
+      "name": "setting",
+      "pageBundle": false,
+      "clearEmpty": true,
+      "fields": [
+        {
+          "name": "sitename",
+          "type": "string",
+          "single": true,
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "single": true
+        },
+        {
+          "name": "logo",
+          "type": "string",
+          "single": true
+        },
+        {
+          "name": "socials",
+          "type": "fields",
+          "fields": [
+            {
+              "name": "twitter",
+              "type": "string",
+              "single": true
+            },
+            {
+              "name": "instagram",
+              "type": "string",
+              "single": true
+            },
+            {
+              "name": "facebook",
+              "type": "string",
+              "single": true
+            },
+            {
+              "name": "linkedin",
+              "type": "string",
+              "single": true
+            }
+          ]
+        },
+        {
+          "name": "contact",
+          "type": "fields",
+          "fields": [
+            {
+              "name": "email",
+              "type": "string",
+              "single": true
+            }
+          ],
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "page",
+      "pageBundle": false,
+      "clearEmpty": true,
+      "fields": [
+        {
+          "name": "title",
+          "type": "string",
+          "single": true,
+          "required": true
+        },
+        {
+          "name": "snippet",
+          "type": "string",
+          "single": true
+        },
+        {
+          "name": "tags",
+          "type": "tags"
+        },
+        {
+          "name": "featured",
+          "type": "fields",
+          "fields": [
+            {
+              "name": "image",
+              "type": "image",
+              "required": true,
+              "isPreviewImage": true
+            },
+            {
+              "name": "alt",
+              "type": "string",
+              "single": true
+            }
+          ]
+        },
+        {
+          "name": "isDraft",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "template",
+          "type": "choice",
+          "choices": [
+            "default",
+            "none"
+          ],
+          "default": "default"
+        },
+        {
+          "name": "type",
+          "type": "choice",
+          "choices": [
+            "default"
+          ],
+          "default": "default"
+        }
+      ]
+    },
+    {
+      "name": "menu",
+      "pageBundle": false,
+      "clearEmpty": true,
+      "fields": []
     }
   ],
   "frontMatter.data.files": [
     {
       "title": "Settings",
       "id": "settings",
-      "file": "[[workspace]]/src/content/settings/default.yml",
+      "file": "[[workspace]]/src/data/settings/default.yml",
       "fileType": "yaml",
       "singleEntry": true,
       "schema": {
@@ -72,7 +213,7 @@
   "frontMatter.content.pageFolders": [
     {
       "title": "artwork",
-      "path": "[[workspace]]/src/content/artwork"
+      "path": "[[workspace]]/src/data/artworks"
     }
   ],
   "frontMatter.content.publicFolder": {

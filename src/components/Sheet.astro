@@ -1,5 +1,7 @@
 ---
 import { getSiteSettings } from "@/lib/settings";
+import Switch from "./ui/ToggleSwitch.astro";
+import { Icon } from "astro-icon/components";
 
 interface Props {
     class?: string;
@@ -8,62 +10,84 @@ interface Props {
 
 const { class: classNames = "", ...props } = Astro.props;
 const settings = await getSiteSettings();
-const { sitename } = settings;
+const { sitename = "Black Square" } = settings;
+const abbreviated = sitename?.match(/\b\w/g)?.join("/").toUpperCase();
 ---
 
 <div
     class="sheet"
-    x-data="{ open: true }"
+    x-data="{ open: false, scrollY: 0 }"
     :class="{ 'sheet--drawer-open': open }"
     @keyup.esc="open = false"
 >
     <!-- Drawer -->
     <aside
-        class="sheet__drawer sm:pt-24 flex flex-col bg-base border-r-2"
+        class="sheet__drawer grid grid-rows-[96px_1fr_auto] sm:grid-rows-[96px_1fr] bg-base border-muted border-r-2"
         id="drawer"
         @click.outside="open = false"
         @keyup.esc="open = false"
     >
-        <div class="sheet__drawer-inner">
+        <div class="hidden p-4 row-start-1 sm:flex items-center">
+            <Switch
+                size="xl"
+                :checked="$store.darkMode.value"
+                @click="({target}) => $store.darkMode.set(target.checked)"
+            >
+                <Icon
+                    name="hugeicons:sun-03"
+                    class="w-8 h-8 p-1 text-muted-foreground rounded-full inset-0 absolute m-auto group-has-checked:opacity-0 transition-opacity"
+                />
+                <Icon
+                    name="hugeicons:moon-02"
+                    class="w-8 h-8 p-1 inset-0 absolute m-auto text-foreground group-has-checked:opacity-100 opacity-0 transition-opacity"
+                />
+            </Switch>
+        </div>
+        <div class="sheet__drawer-inner row-start-2">
             <slot name="aside" />
         </div>
-        <button class="py-4 border-t sm:hidden" @click="open = false"
-            >close</button
+        <button
+            class="py-4 border-t sm:hidden row-start-3"
+            @click="open = false">close</button
         >
     </aside>
-    <div
-        class="sheet__main"
-        :class="open ? 'overflow-y-clip' : 'overflow-y-auto'"
+    <main
+        class:list={["sheet__main", "w-svw h-svh grid-container", classNames]}
+        :class="open ? 'overflow-y-hidden' : 'overflow-y-auto'"
+        @scroll.throttle.100s="scrollY = $event.target.scrollTop"
         {...props}
     >
         <header
-            class="sticky top-0 z-10 overflow-x-visible flex gap-4 items-center"
+            class="sticky top-0 z-10 overflow-x-visible flex gap-4 items-center container-fullbreak transition-transform"
+            :class="{'scale-95 -translate-x-4': scrollY > 80}"
         >
             <button
-                class="group row-start-1 z-10 flex gap-y-4 bg-background justify-center h-24 flex-col py-4 px-4 hover:bg-accent/50 w-24"
+                class="group bg-base row-start-1 z-10 flex gap-y-4 bg-background justify-center h-24 flex-col py-4 px-4 hover:bg-accent/50 w-24"
                 :aria-expanded="open.toString()"
                 aria-controls="drawer"
                 @click.stop="open = !open"
-                :class="open ? '-translate-x-[calc(2px_+_100%)]': 'items-start'"
             >
                 <span
                     class="w-14 h-0.5 transition-all bg-foreground block rounded-lg"
-                    :class="[open ? '-rotate-45 translate-x-[0.45rem] translate-y-[9px] group-hover:w-[50px]' : 'group-hover:w-[30px]']"
+                    :class="[open ? '-rotate-45 translate-x-[0.45rem] translate-y-[9px]' : 'group-hover:w-[30px]']"
                 ></span>
                 <span
                     class="w-14 group-hover:w-[49px] transition-all h-0.5 bg-foreground block rounded-lg"
                     x-show="!open"></span>
                 <span
                     class="w-14 h-0.5 transition-all bg-foreground block rounded-lg"
-                    :class="[open ? 'rotate-45 translate-x-[0.45rem] -translate-y-[9px] group-hover:w-[50px]' : 'group-hover:w-[45px]']"
+                    :class="[open ? 'rotate-45 translate-x-[0.45rem] -translate-y-[9px]' : 'group-hover:w-[45px]']"
                 ></span>
             </button>
-            <h1 class="text-2xl font-semibold">
-                {sitename}
+            <h1 class="text-2xl font-semibold not-prose text-foreground">
+                <span class="sr-only">{sitename}</span>
+                <span
+                    x-text={`scrollY > 80 || open ? "${abbreviated}" : '${sitename}'`}
+                ></span>
             </h1>
         </header>
         <slot />
-    </div>
+    </main>
 </div>
 
 <style scoped>
@@ -92,9 +116,7 @@ const { sitename } = settings;
     .sheet__main {
         grid-area: main;
         scroll-snap-type: y mandatory;
-        width: 100vw;
-        height: 100svh;
-        overflow-x: visible;
+        overflow-x: auto;
     }
 
     /* When the drawer is open, change the first column's width */

@@ -1,0 +1,30 @@
+---
+import { Image } from "astro:assets";
+import { type CollectionEntry, render } from "astro:content";
+
+interface Props {
+    page: CollectionEntry<"page">;
+}
+const { page } = Astro.props;
+const { title, featured } = page.data;
+const { Content } = await render(page);
+---
+
+<article class="h-[calc(100svh_-_14rem)]">
+    {
+        featured && (
+            <section>
+                <Image
+                    src={featured.image}
+                    alt={
+                        featured.alt
+                            ? featured.alt
+                            : `Featured image of ${title} page`
+                    }
+                />
+            </section>
+        )
+    }
+    <h1>{title}</h1>
+    <Content />
+</article>

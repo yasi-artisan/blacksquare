@@ -1,7 +1,6 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
-@plugin "taos/plugin";
 
+@import "../../node_modules/flickity/css/flickity.css";
 /* Custom dark mode variant */
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -19,10 +18,11 @@
     --color-base: oklch(0.99 0.01 40);
     --color-base-lighter: oklch(from var(--color-base) calc(l + 0.05) c h);
     --color-base-darker: oklch(from var(--color-base) calc(l - 0.05) c h);
+
     --color-surface: oklch(0.95 0.015 90);
     --color-foreground: oklch(0.15 0.02 270);
 
-    --color-primary: oklch(0.592 0.249 264);
+    --color-primary: oklch(0.752 0.08 318);
     --color-primary-lighter: oklch(
         from var(--color-primary) calc(l + 0.05) c h
     );
@@ -46,13 +46,24 @@
     --color-muted: oklch(0.65 0.03 270);
     --color-muted-foreground: oklch(0.4 0.03 270);
 
-    --color-border: oklch(0.85 0.02 270);
     --color-input: oklch(0.9 0.02 270);
     --color-shadow: oklch(0 0 0);
     --color-accent: var(--color-base-darker);
-    --color-accent-foreground: var(--color-foreground);
+    --color-accent-foreground: oklch(
+        from var(--color-accent) calc(l - 0.35) c h
+    );
 
     --color-focus-ring: var(--color-primary);
+
+    /* prose variables */
+    --body-bg: var(--color-base);
+    --body-color: var(--color-foreground);
+    --link-color: var(--color-primary);
+    --link-hover-color: var(--color-primary-darker);
+    --heading-font-family: var(--font-mono);
+    --heading-font-weight: 700;
+    --heading-line-height: 1.2;
+    --paragraph-margin-bottom: 1rem;
 }
 
 /* Dark mode color assignments */
@@ -64,20 +75,119 @@
     --color-muted: oklch(0.35 0.03 270);
     --color-muted-foreground: oklch(0.8 0.03 270);
 
-    --color-border: oklch(0.3 0.03 270);
     --color-input: oklch(0.25 0.03 270);
 
-    --color-accent: var(--color-primary-lighter);
+    --color-accent: var(--color-base-lighter);
     --color-accent-foreground: var(--black);
 
     --color-shadow: oklch(0 0 0);
 }
 
-/* Utility classes */
-@layer utilities {
-    /* Hide Alpine.js elements before initialization */
+@layer base {
     [x-cloak] {
         display: none;
+    }
+
+    /* Base element styles */
+    body {
+        @apply bg-base text-foreground font-body transition-colors duration-300 ease-in-out;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    li {
+        @apply text-foreground my-2 leading-normal;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        @apply text-primary font-mono font-bold leading-tight;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    h3 {
+        font-size: 1.75rem;
+    }
+
+    h4 {
+        font-size: 1.5rem;
+    }
+
+    p,
+    li {
+        font-size: 18pt;
+        @apply mb-4;
+    }
+
+    li {
+        @apply list-disc list-inside mb-2;
+    }
+
+    a {
+        color: var(--link-color);
+        text-decoration: underline;
+        &:hover {
+            color: var(--color-primary-darker);
+        }
+    }
+
+    blockquote {
+        border-left: 4px solid var(--color-primary);
+        padding-left: 1rem;
+        margin-left: 0;
+        margin-right: 0;
+        font-style: italic;
+        color: var(--color-muted-foreground);
+    }
+
+    code {
+        font-family: monospace;
+        background-color: var(--color-muted);
+        padding: 0.2em 0.4em;
+        border-radius: 0.25em;
+    }
+}
+
+@layer components {
+    /* define animation */
+    --animate-fade-in-scale: fade-in-scale 0.3s ease-in-out;
+    @keyframes fade-in-scale {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+}
+
+@layer utilities {
+    .grid-container {
+        @apply grid grid-cols-[minmax(1rem,1fr)_minmax(max-content,56rem)_minmax(1rem,1fr)] grid-rows-[auto];
+        & * {
+            @apply col-start-2;
+        }
+        .container-fullbreak {
+            @apply w-full col-start-1 col-end-4;
+        }
     }
 
     /* High contrast mode adjustments for accessibility */
@@ -87,17 +197,26 @@
         }
     }
 
-    /* Smooth scrolling */
-    .scroll-smooth {
-        scroll-behavior: smooth;
-    }
-
     /* Focus styles for keyboard navigation */
-    .focus-visible\:ring {
+    /* .focus-visible\:ring {
         @apply outline-none;
     }
 
     .focus-visible\:ring:focus-visible {
         @apply outline-none ring-2 ring-primary ring-offset-2;
+    }
+
+    @media (prefers-contrast: more) {
+        :root {
+            --color-primary: oklch(0.5 0.3 264);
+        }
+    } */
+}
+
+@utility scrollbar-hidden {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+        display: none;
     }
 }

@@ -1,13 +1,7 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 
-/**
- * A type alias for an artwork collection entry for better readability.
- */
 type Artwork = CollectionEntry<"artwork">;
 
-/**
- * Defines the shape of the object containing lists of unique artwork attributes.
- */
 export type ArtworkAttributes = {
   tags: string[];
   years: number[];
@@ -61,7 +55,7 @@ export function getAttrsList(artworks: Artwork[]): ArtworkAttributes {
  * @returns A promise that resolves to an array of non-draft artwork entries.
  */
 export async function getAllArtworks(): Promise<Artwork[]> {
-  return await getCollection("artwork", (artwork) => !artwork.data.isDraft);
+  return await getCollection("artwork", ({ data }) => !data.isDraft);
 }
 
 /**
@@ -74,9 +68,38 @@ export function groupArtworksByYear(
   artworks: Artwork[],
 ): Record<string, Artwork[]> {
   return artworks.reduce<Record<string, Artwork[]>>((acc, artwork) => {
-    const year = artwork.data.year?.toString() || "undated";
+    const year = artwork.data.year || "undated";
     // This is a concise way to initialize the array if it doesn't exist and push the item.
     (acc[year] = acc[year] || []).push(artwork);
     return acc;
   }, {});
+}
+
+export function groupArtworksByMedium(
+  artworks: Artwork[],
+): Record<string, Artwork[]> {
+  return artworks.reduce<Record<string, Artwork[]>>((acc, artwork) => {
+    const mediums = artwork.data.medium || [];
+    mediums.forEach((medium) => {
+      (acc[medium] = acc[medium] || []).push(artwork);
+    });
+    return acc;
+  }, {});
+}
+
+export function getMediums(artworks: Artwork[]): string[] {
+  return [
+    ...new Set(
+      artworks
+        .map((artwork) => artwork.data.medium)
+        .flat()
+        .filter((medium): medium is string => medium != null),
+    ),
+  ];
+}
+
+export function getYears(artworks: Artwork[]): number[] {
+  return artworks
+    .map((artwork) => artwork.data.year)
+    .filter((y): y is number => y != null);
 }

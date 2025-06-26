@@ -7,24 +7,130 @@ import { getCollection } from "astro:content";
 
 export const prerender = true;
 
-export const getStaticPaths = ( async () => {
-    const pages = await getCollection("artwork", ({data}) => !data.isDraft )
+export const getStaticPaths = (async () => {
+    const pages = await getCollection("artwork", ({ data }) => !data.isDraft);
     return pages.map((page) => ({
-        params: {slug: page.id},
-        props: {page}
+        params: { slug: page.id },
+        props: { page },
     }));
 }) satisfies GetStaticPaths;
 
-const {page} = Astro.props
-const {title, gallery, featured, year} = page.data
-console.log(page.data)
-
+const { page } = Astro.props;
+const { title, gallery, featured, year } = page.data;
+const { Content } = await render(page);
 ---
 
-<Layout {title}>
-
-    <h1 class="text-7xl font-(family-name:--font-black-han)">{title}</h1>
-    <Image src={featured.image}  alt={featured?.alt ?? "no alt"} layout="constrained"/>
+<Layout {title}
+    x-data=`{
+    showTitle: false,
+    showContent: false,
+    activeIndex: 0,
+    }`
+    >
+    <section
+        class="snap-end h-[calc(100svh_-_96px)] flex justify-center items-center"
+        x-intersect.full="showTitle = true"
+        x-intersect:leave="showTitle = false"
+    >
+        <h1 class="text-7xl font-title title-animation" :class="showTitle ? 'title-visible' : ''">
+            {title}
+            <span class="font-body">({year})</span>.
+        </h1>
+    </section>
+    {
+        gallery && (
+            <section class="snap-end container-fullbreak h-svh pt-24 pb-16">
+                <div class="h-full relative"
+                    x-carousel
+                    @carousel-change="(value) => console.log('Carousel changed', value)"
+                >
+                    {gallery.map((item, index) => (
+                        <div class={`carousel-cell w-1/${Math.round(item.height/item.width + 2)} h-full px-2 `} id={`image-${index}`}>
+                            <Image
+                                src={item}
+                                alt={`Image of ${title} - ${year}`}
+                                layout="constrained"
+                                class="w-auto h-full object-contain block transition-colors img-placeholder"
+                                @load="(target) => $el.classList.toggle('img-placeholder')"
+                            />
+                        </div>
+                    ))}
+                </div>
+                <div class="markers"></div>
+            </section>
+        )
+    }
+    {
+        page?.body && (
+        <article
+            class="max-w-2xl flex justify-center items-center pt-24 pb-10 snap-start"
+            x-intersect:enter.threshold.50="showContent = true"
+            x-intersect:leave="showContent = false"
+        >
+            <div class="content-wrapper w-full" :class="showContent ? 'content-visible' : ''">
+                <Content />
+            </div>
+        </article>
+        )
+    }
 
 </Layout>
 
+
+
+<style>
+    @reference "@/styles/global.css";
+    .img-placeholder {
+        @apply bg-muted;
+    }
+    .carousel {
+
+    }
+
+    /* Title animation */
+    .title-animation {
+        opacity: 0;
+        transform: translateY(5rem);
+        transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    }
+
+    .title-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Content animations */
+    .content-wrapper :global(h2),
+    .content-wrapper :global(h3),
+    .content-wrapper :global(p),
+    .content-wrapper :global(img),
+    .content-wrapper :global(blockquote),
+    .content-wrapper :global(ul),
+    .content-wrapper :global(ol) {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    }
+
+    .content-visible {
+        & :global(h2),
+        & :global(h3),
+        & :global(p),
+        & :global(img),
+        & :global(blockquote),
+        & :global(ul),
+        & :global(ol) {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        & :global(*:nth-child(1)) { transition-delay: 0.1s; }
+        & :global(*:nth-child(2)) { transition-delay: 0.2s; }
+        & :global(*:nth-child(3)) { transition-delay: 0.3s; }
+        & :global(*:nth-child(4)) { transition-delay: 0.4s; }
+        & :global(*:nth-child(5)) { transition-delay: 0.5s; }
+        & :global(*:nth-child(6)) { transition-delay: 0.6s; }
+        & :global(*:nth-child(7)) { transition-delay: 0.7s; }
+        & :global(*:nth-child(8)) { transition-delay: 0.8s; }
+    }
+</style>

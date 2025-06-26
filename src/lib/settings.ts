@@ -20,7 +20,7 @@ let settingsCache: SiteSettings | null = null;
  * @returns The site settings object
  */
 export async function getSiteSettings(
-  id: string = SITE_SETTINGS_ID
+  id: string = SITE_SETTINGS_ID,
 ): Promise<SiteSettings> {
   // Return cached settings if available
   if (settingsCache) {
@@ -29,7 +29,7 @@ export async function getSiteSettings(
 
   try {
     // Get the settings entry from the content collection
-    const settingsEntry = await getEntry("settings", id);
+    const settingsEntry = await getEntry("setting", id);
 
     if (!settingsEntry) {
       throw new Error(`Settings with ID "${id}" not found`);
@@ -68,7 +68,7 @@ export function clearSettingsCache(): void {
  */
 export async function isFeatureEnabled(
   featureName: keyof NonNullable<SiteSettings["features"]>,
-  settings?: SiteSettings
+  settings?: SiteSettings,
 ): Promise<boolean> {
   const siteSettings = settings || (await getSiteSettings());
 

@@ -1,0 +1,39 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import { groupArtworksByYear, getYears, getAllArtworks } from "@/lib/artworks";
+
+const artworks = await getAllArtworks();
+const groupByYear = groupArtworksByYear(artworks);
+const years = getYears(artworks);
+---
+
+<Layout title="Artwork Chronicle">
+    {
+        years.reverse().map((year, idx) => (
+            <section
+                class="snap-center flex gap-4  h-svh place-items-center "
+                id={`container-${year}`}
+            >
+                <h2 class="sm:flex-1 text-right text-foreground">{year}</h2>
+
+                <ul class="flex-1">
+                    {groupByYear[year.toString()].map((artwork) => (
+                        <li class="list-none">
+                            <a
+                                href={`/artworks/${artwork.data.slug}`}
+                                class="flex items-center gap-2 text-3xl text-foreground hover:text-accent-foreground transition group"
+                            >
+                                {artwork.data.title.toUpperCase()}
+                                <Icon
+                                    name="hugeicons:arrow-turn-backward"
+                                    class="opacity-0 block text-foreground group-hover:opacity-100 transition w-8 h-8"
+                                />
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </section>
+        ))
+    }
+</Layout>

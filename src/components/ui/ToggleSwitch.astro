@@ -1,0 +1,49 @@
+---
+import { tv } from "tailwind-variants";
+
+interface Props {
+    id?: string;
+    disabled?: boolean;
+    color?: "primary";
+    size?: "xl";
+    [key: string]: any;
+}
+
+const {
+    id = crypto.randomUUID(),
+    disabled = false,
+    color,
+    size,
+    ...rest
+} = Astro.props;
+const toggle = tv({
+    slots: {
+        base: "relative inline-block w-10 h-5 group",
+        input: "peer appearance-none w-11 h-5 bg-base-darker dark:bg-black rounded-full checked:bg-foreground cursor-pointer transition-colors duration-300",
+        label: "absolute top-0 left-0 w-5 h-5 bg-base rounded-full border border-muted shadow-sm transition-transform duration-300 peer-checked:translate-x-6 peer-checked:border-foreground cursor-pointer flex items-center justify-center ",
+    },
+    variants: {
+        color: {
+            primary: {
+                input: "checked:bg-primary",
+                label: "",
+            },
+        },
+        size: {
+            xl: {
+                base: "h-8 w-15",
+                input: "w-16 h-8",
+                label: "w-8 h-8 peer-checked:translate-x-8",
+            },
+        },
+    },
+});
+const { base, input, label } = toggle({ color, size });
+---
+
+<div class={base()}>
+    <input {id} {disabled} {...rest} type="checkbox" class={input()} />
+    <label for={id} class={label()}>
+        <slot />
+    </label>
+</div>

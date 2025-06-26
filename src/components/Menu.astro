@@ -24,7 +24,7 @@ const components = import.meta.glob<
 });
 ---
 
-<ul class:list={["nested-menu ", className]} {...rest}>
+<ul class:list={["nested-menu text-foreground", className]} {...rest}>
     {
         sortedItems.map((item) => {
             const Component =
@@ -33,10 +33,10 @@ const components = import.meta.glob<
                     : null;
 
             return (
-                <li >
+                <li class="list-none">
                     {/* Render a link */}
                     {item.type === "link" && (
-                        <a class="px-4 py-4 text-2xl block hover:bg-accent transition-colors" href={item.slug}>{item.label}</a>
+                        <a class="px-4 py-4 text-2xl block hover:bg-accent transition-colors text-foreground" href={item.slug}>{item.label}</a>
                     )}
 
                     {/* Render a folder as a non-clickable label */}
@@ -62,8 +62,7 @@ const components = import.meta.glob<
 
                     {/* Render a dynamic component */}
                     {item.type === "component" && (
-                        <div class="component-item">
-                            <span class="component-label">{item.label}</span>
+                        <div class="component-item px-4 py-4">
                             {Component ? (
                                 <Component />
                             ) : (

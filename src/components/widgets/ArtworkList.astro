@@ -1,0 +1,15 @@
+---
+import { getCollection } from "astro:content";
+
+const artworks = await getCollection("artwork", ({ data }) => !data.isDraft);
+---
+
+<ul>
+    {
+        artworks.map((artwork) => (
+            <li>
+                <a href={`/artworks/${artwork.id}`}>{artwork.data.title}</a>
+            </li>
+        ))
+    }
+</ul>

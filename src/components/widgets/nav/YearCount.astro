@@ -1,0 +1,29 @@
+---
+import { getAllArtworks, getYears, groupArtworksByYear } from "@/lib/artworks";
+
+const thisYear = new Date().getFullYear();
+// const years = Array.from({ length: 10 }, (_, i) => thisYear - i);
+// console.log(years);
+const artworks = await getAllArtworks();
+const groupedByYear = groupArtworksByYear(artworks);
+const years = getYears(artworks);
+---
+
+<div class="grid grid-auto-flow-col grid-flow-col grid-rows-2 w-full">
+    {
+        years.map((year) => (
+            <a
+                class="text-2xl flex justify-center  items-center px-2 py-4 gap-2 hover:bg-accent no-underline text-foreground transition"
+                href={`/artworks/chronicle#container-${year}`}
+            >
+                <span class="relative">
+                    {year}
+
+                    <span class="w-5 h-5 absolute -top-2 -right-4 text-base rounded-full bg-primary text-[1rem] font-semibold mx-auto text-center">
+                        {groupedByYear[year.toString()].length}
+                    </span>
+                </span>
+            </a>
+        ))
+    }
+</div>
