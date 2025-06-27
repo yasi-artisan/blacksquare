@@ -22,7 +22,8 @@ const abbreviated = sitename?.match(/\b\w/g)?.join("/").toUpperCase();
 >
     <!-- Drawer -->
     <aside
-        class="sheet__drawer grid grid-rows-[96px_1fr_auto] sm:grid-rows-[96px_1fr] bg-base border-muted border-r-2"
+        class="sheet__drawer grid grid-rows-[1rem_1fr_auto] sm:grid-rows-[96px_1fr] bg-base"
+        :class="open && 'border-muted border-r-2'"
         id="drawer"
         @click.outside="open = false"
         @keyup.esc="open = false"
@@ -47,9 +48,11 @@ const abbreviated = sitename?.match(/\b\w/g)?.join("/").toUpperCase();
             <slot name="aside" />
         </div>
         <button
-            class="py-4 border-t sm:hidden row-start-3"
-            @click="open = false">close</button
+            class="py-4 border-t sm:hidden row-start-3 text-center"
+            @click="open = false"
         >
+            <Icon name="hugeicons:cancel-01" class="w-8 h-8 inline" /> Close
+        </button>
     </aside>
     <main
         class:list={["sheet__main", "w-svw h-svh grid-container", classNames]}
@@ -58,8 +61,8 @@ const abbreviated = sitename?.match(/\b\w/g)?.join("/").toUpperCase();
         {...props}
     >
         <header
-            class="sticky top-0 z-10 overflow-x-visible flex gap-4 items-center container-fullbreak transition-transform"
-            :class="{'scale-95 -translate-x-4': scrollY > 80}"
+            class="sticky top-0 border-none z-10 overflow-x-visible flex gap-4 items-center container-fullbreak transition-transform"
+            :class="{'scale-95 -translate-x-4 sm:-translate-x-8': scrollY > 80}"
         >
             <button
                 class="group bg-base row-start-1 z-10 flex gap-y-4 bg-background justify-center h-24 flex-col py-4 px-4 hover:bg-accent/50 w-24"
@@ -80,10 +83,12 @@ const abbreviated = sitename?.match(/\b\w/g)?.join("/").toUpperCase();
                 ></span>
             </button>
             <h1 class="text-2xl font-semibold not-prose text-foreground">
-                <span class="sr-only">{sitename}</span>
-                <span
-                    x-text={`scrollY > 80 || open ? "${abbreviated}" : '${sitename}'`}
-                ></span>
+                <a class="text-foreground font-body font-900" href="/">
+                    <span class="sr-only">{sitename}</span>
+                    <span
+                        x-text={`scrollY > 80 || open ? "${abbreviated}" : '${sitename}'`}
+                    ></span>
+                </a>
             </h1>
         </header>
         <slot />
@@ -91,16 +96,19 @@ const abbreviated = sitename?.match(/\b\w/g)?.join("/").toUpperCase();
 </div>
 
 <style scoped>
+    @reference "@/styles/global.css";
     :root {
-        --drawer-width: calc(40rem - 40px);
+        --drawer-width: 100%;
         --drawer-height: 100vh;
         --drawer-transition-duration: 0.3s;
         --drawer-transition-timing: ease-in-out;
+        @variant sm {
+            --drawer-width: calc(40rem - 40px);
+        }
     }
 
     .sheet {
         display: grid;
-        /* The first column is for the drawer, starts at 0 width */
         grid-template-columns: 0 1fr;
         grid-template-rows: auto;
         grid-template-areas: "drawer main";

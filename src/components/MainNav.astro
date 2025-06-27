@@ -4,6 +4,7 @@ import Menu from "@/components/Menu.astro";
 // Get menu data from the content collection.
 const menuEntries = await getCollection("menu");
 const menuItems = menuEntries.map((entry) => entry.data);
+console.log("Entries:", menuEntries);
 ---
 
 <header>

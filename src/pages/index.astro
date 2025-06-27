@@ -18,28 +18,28 @@ const frames = [
         alt: "keyframe1",
         imageClass: "w-[400px] h-[440px] object-cover",
         title: "Installation",
-        href: "/installation",
+        href: "/artworks/medium/installation",
     },
     {
         src: image2,
         alt: "keyframe2",
         imageClass: "w-[400px] object-contain",
         title: "Papermaking/Printmaking",
-        href: "/papermaking-printmaking",
+        href: "/artworks/medium/papermaking/printmaking",
     },
     {
         src: image1,
         alt: "keyframe3",
         imageClass: "w-[440px] object-contain",
         title: "Painting",
-        href: "/painting",
+        href: "/artworks/medium/painting",
     },
     {
         src: image5,
         alt: "keyframe4",
         imageClass: "w-[400px] h-[380px] object-cover",
         title: "Community Project",
-        href: "/community",
+        href: "/artworks/medium/community-project",
     },
 ];
 
@@ -60,11 +60,8 @@ const siteSettings = await getSiteSettings();
     @scroll.throttle="handleScroll"
 >
     <div
-        class="h-svh sticky top-[40px] flex justify-center items-center grid-cols-2 text-foreground"
+        class="h-svh sticky snap-start top-[40px] flex justify-center items-center grid-cols-2 text-foreground"
     >
-        <p class="hidden md:block col-start-1">
-            <span x-text="activeIndex"></span>/<span x-text="frames"></span>
-        </p>
         {
             frames.map((frame, index) => (
                 <section
@@ -77,7 +74,7 @@ const siteSettings = await getSiteSettings();
                         loading="eager"
                         alt={frame.alt}
                     />
-                    <h2 class="text-xl font-semibold text-center underline decoration-wavy underline-offset-4 decoration-zinc-900/0 hover:decoration-zinc-900 transition-colors duration-300">
+                    <h2 class="text-xl font-semibold text-center transition-colors duration-300">
                         <a href={frame.href}>{frame.title}</a>
                     </h2>
                 </section>
@@ -85,5 +82,5 @@ const siteSettings = await getSiteSettings();
         }
     </div>
 
-    <div class="h-[120vh] scroll-trigger"></div>
+    <div class="h-[150vh] scroll-trigger snap-center"></div>
 </Layout>

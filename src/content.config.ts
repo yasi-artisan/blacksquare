@@ -23,7 +23,6 @@ const setting = defineCollection({
   schema: z.object({
     sitename: z.string(),
     description: z.string().optional(),
-    logo: z.string().optional(),
     socials: z
       .object({
         twitter: z.string().url().optional(),

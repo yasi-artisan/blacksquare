@@ -4,6 +4,6 @@ import { getSiteSettings } from "@/lib/settings";
 const { sitename = "Black Square" } = await getSiteSettings();
 ---
 
-<footer class="py-4 px-4 text-center">
-    <p>&copy; {new Date().getFullYear()} {sitename}</p>
+<footer class="py-4 px-4 text-center snap-end border-none">
+    <p class="text-sm">&copy; {new Date().getFullYear()} {sitename}</p>
 </footer>

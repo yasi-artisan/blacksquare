@@ -33,7 +33,9 @@
         },
         {
           "name": "medium",
-          "type": "list"
+          "type": "taxonomy",
+          "multiple": true,
+          "taxonomyId": "medium"
         },
         {
           "name": "featured",
@@ -61,6 +63,69 @@
       ]
     },
     {
+      "name": "page",
+      "pageBundle": false,
+      "clearEmpty": true,
+      "allowAsSubContent": true,
+      "fields": [
+        {
+          "name": "title",
+          "type": "string",
+          "single": true,
+          "required": true
+        },
+        {
+          "name": "snippet",
+          "type": "string",
+          "single": true
+        },
+        {
+          "name": "tags",
+          "type": "tags"
+        },
+        {
+          "name": "featured",
+          "type": "fields",
+          "fields": [
+            {
+              "name": "image",
+              "type": "image",
+              "required": true,
+              "isPreviewImage": true
+            },
+            {
+              "name": "alt",
+              "type": "string",
+              "single": true
+            }
+          ]
+        },
+        {
+          "name": "isDraft",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "template",
+          "type": "choice",
+          "choices": ["default", "none"],
+          "default": "default"
+        },
+        {
+          "name": "type",
+          "type": "choice",
+          "choices": ["default"],
+          "default": "default"
+        }
+      ]
+    },
+    {
+      "name": "menu",
+      "pageBundle": false,
+      "clearEmpty": true,
+      "fields": []
+    },
+    {
       "name": "setting",
       "pageBundle": false,
       "clearEmpty": true,
@@ -73,11 +138,6 @@
         },
         {
           "name": "description",
-          "type": "string",
-          "single": true
-        },
-        {
-          "name": "logo",
           "type": "string",
           "single": true
         },
@@ -120,89 +180,156 @@
           "required": true
         }
       ]
-    },
-    {
-      "name": "page",
-      "pageBundle": false,
-      "clearEmpty": true,
-      "fields": [
-        {
-          "name": "title",
-          "type": "string",
-          "single": true,
-          "required": true
-        },
-        {
-          "name": "snippet",
-          "type": "string",
-          "single": true
-        },
-        {
-          "name": "tags",
-          "type": "tags"
-        },
-        {
-          "name": "featured",
-          "type": "fields",
-          "fields": [
-            {
-              "name": "image",
-              "type": "image",
-              "required": true,
-              "isPreviewImage": true
-            },
-            {
-              "name": "alt",
-              "type": "string",
-              "single": true
-            }
-          ]
-        },
-        {
-          "name": "isDraft",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "name": "template",
-          "type": "choice",
-          "choices": [
-            "default",
-            "none"
-          ],
-          "default": "default"
-        },
-        {
-          "name": "type",
-          "type": "choice",
-          "choices": [
-            "default"
-          ],
-          "default": "default"
-        }
-      ]
-    },
-    {
-      "name": "menu",
-      "pageBundle": false,
-      "clearEmpty": true,
-      "fields": []
     }
   ],
   "frontMatter.data.files": [
     {
       "title": "Settings",
-      "id": "settings",
-      "file": "[[workspace]]/src/data/settings/default.yml",
+      "id": "setting",
+      "file": "[[workspace]]/src/data/settings.yml",
       "fileType": "yaml",
       "singleEntry": true,
       "schema": {
         "title": "Settings",
         "type": "object",
         "properties": {
-          "sitename": {
+          "site": {
+            "type": "object",
+            "title": "Site",
+            "properties": {
+              "sitename": {
+                "type": "string",
+                "title": "Site title"
+              },
+              "description": {
+                "type": "string",
+                "title": "Description",
+                "multiline": true
+              },
+              "socials": {
+                "type": "object",
+                "title": "Socials",
+                "properties": {
+                  "twitter": {
+                    "type": "string",
+                    "title": "Twitter"
+                  },
+                  "instagram": {
+                    "type": "string",
+                    "title": "Instragram"
+                  },
+                  "facebook": {
+                    "type": "string",
+                    "title": "Facebook"
+                  },
+                  "linkedin": {
+                    "type": "string",
+                    "title": "LinkedIn"
+                  }
+                }
+              },
+              "contact": {
+                "type": "string",
+                "title": "Contact",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "title": "Email"
+                  }
+                }
+              },
+              "features": {
+                "type": "object",
+                "title": "Features",
+                "properties": {
+                  "darkMode": {
+                    "title": "Dark mode",
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "search": {
+                    "title": "Search",
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "newsletter": {
+                    "title": "Newsletter",
+                    "type": "boolean",
+                    "default": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Menu",
+      "id": "menu",
+      "file": "[[workspace]]/src/data/menu.yml",
+      "fileType": "yaml",
+      "labelField": "id",
+      "singleEntry": false,
+      "schema": {
+        "required": ["id", "label", "type"],
+        "title": "Menu",
+        "type": "object",
+        "properties": {
+          "id": {
             "type": "string",
-            "title": "Site title"
+            "title": "ID"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "order": {
+            "type": "number",
+            "title": "Order"
+          },
+          "component": {
+            "type": "string",
+            "title": "Component"
+          },
+          "children": {
+            "type": "array",
+            "title": "Children",
+            "required": ["id", "label", "type"],
+            "items": {
+              "type": "object",
+              "title": "Children",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "title": "Label"
+                },
+                "slug": {
+                  "type": "string",
+                  "title": "Slug"
+                },
+                "type": {
+                  "type": "string",
+                  "title": "Type"
+                },
+                "order": {
+                  "type": "number",
+                  "title": "Order"
+                },
+                "component": {
+                  "type": "string",
+                  "title": "Component"
+                }
+              }
+            }
           }
         }
       }
@@ -214,6 +341,10 @@
     {
       "title": "artwork",
       "path": "[[workspace]]/src/data/artworks"
+    },
+    {
+      "title": "pages",
+      "path": "[[workspace]]/src/data/pages"
     }
   ],
   "frontMatter.content.publicFolder": {
@@ -221,5 +352,17 @@
     "relative": true
   },
   "frontMatter.git.enabled": true,
+  "frontMatter.taxonomy.customTaxonomy": [
+    {
+      "id": "medium",
+      "options": [
+        "painting",
+        "papermaking",
+        "printmaking",
+        "community project",
+        "installation"
+      ]
+    }
+  ],
   "frontMatter.framework.startCommand": "yarn dev"
 }

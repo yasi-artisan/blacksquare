@@ -1,49 +1,33 @@
-artworks:
-  label: "Artworks"
-  type: "folder"
+- id: artworks
+  label: Artworks
+  type: folder
   order: 1
   children:
-    - label: "printmaking"
-      type: "link"
-      slug: "/services/web-development"
+    - label: printmaking
+      type: link
+      slug: /artworks/medium/printmaking
       order: 1
-    - label: "painting"
-      type: "link"
-      slug: "/services/seo"
+    - label: painting
+      type: link
+      slug: /artworks/medium/painting
       order: 2
-    - label: "Community Projects"
-      type: "link"
-      slug: "/services/community-projects"
+    - label: Community Projects
+      type: link
+      slug: /artworks/medium/community-projects
       order: 3
-timeline:
-  label: "Timeline"
-  type: "folder"
+- id: timeline
+  label: Timeline
+  type: folder
   order: 1
   children:
-    - label: "Chronicle"
-      type: "component"
-      component: "YearCount"
+    - label: Chronicle
+      type: component
+      component: YearCount
       order: 1
-about:
-  label: "About Us"
-  type: "link"
-  slug: "/about"
+- id: about
+  label: About
+  type: link
+  slug: /about
   order: 3
+  children: []
 
-contact:
-  label: "Contact"
-  type: "link"
-  slug: "/contact"
-  order: 4
-
-gallery:
-  label: "Gallery"
-  type: "link"
-  slug: "/gallery"
-  order: 5
-
-blog:
-  label: "Blog"
-  type: "link"
-  slug: "/blog"
-  order: 6

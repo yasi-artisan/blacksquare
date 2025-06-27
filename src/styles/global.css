@@ -22,7 +22,7 @@
     --color-surface: oklch(0.95 0.015 90);
     --color-foreground: oklch(0.15 0.02 270);
 
-    --color-primary: oklch(0.752 0.08 318);
+    --color-primary: oklch(0.052 0.28 268);
     --color-primary-lighter: oklch(
         from var(--color-primary) calc(l + 0.05) c h
     );
@@ -181,7 +181,7 @@
 
 @layer utilities {
     .grid-container {
-        @apply grid grid-cols-[minmax(1rem,1fr)_minmax(max-content,56rem)_minmax(1rem,1fr)] grid-rows-[auto];
+        @apply grid grid-cols-[minmax(1rem,1fr)_minmax(min-content,56rem)_minmax(1rem,1fr)] grid-rows-[auto];
         & * {
             @apply col-start-2;
         }

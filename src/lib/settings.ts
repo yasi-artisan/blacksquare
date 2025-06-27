@@ -6,7 +6,7 @@ const SITE_SETTINGS_ID = "site";
 /**
  * Type for site settings
  */
-export type SiteSettings = CollectionEntry<"settings">["data"];
+export type SiteSettings = CollectionEntry<"setting">["data"];
 
 /**
  * Cache for the site settings to avoid repeated database queries

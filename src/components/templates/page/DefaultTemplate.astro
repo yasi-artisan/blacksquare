@@ -10,7 +10,7 @@ const { title, featured } = page.data;
 const { Content } = await render(page);
 ---
 
-<article class="h-[calc(100svh_-_14rem)]">
+<article class="min-h-[calc(100svh_-_14rem)] h-[max-content] snap-start pt-24">
     {
         featured && (
             <section>

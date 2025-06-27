@@ -5,10 +5,13 @@ site:
     thought-provoking exhibitions
   logo: /logo.svg
   socials:
-    instagram: "https://www.instagram.com/yasi_moussavi/"
+    instagram: https://www.instagram.com/yasi_moussavi/
   contact:
-    email: "yasi.artisan@gmail.com"
+    email: yasi.artisan@gmail.com
   features:
     darkMode: true
     newsletter: true
     search: true
+
+
+

@@ -1,0 +1,118 @@
+---
+import { Icon } from "astro-icon/components";
+import Layout from "@/layouts/Layout.astro";
+import {
+    getAllArtworks,
+    getMediums,
+    filterArtworksByMedium,
+} from "@/lib/artworks";
+import { Image } from "astro:assets";
+
+const { artworks } = Astro.props;
+const { slug } = Astro.params;
+
+export const getStaticPaths = async () => {
+    const artworks = await getAllArtworks();
+    const availableSlugs = [
+        ...new Set(
+            artworks.reduce((acc: string[], artwork) => {
+              const mediums = artwork.data?.medium?.map(m => m.toLowerCase().replace(/\s+/g, '-')) || [];
+                const mediumCombinations: string[] = [];
+                if (mediums.length > 0) {
+                    const generateCombinations = (
+                        arr: string[],
+                        current: string[] = [],
+                    ) => {
+                        if (current.length > 0) {
+                            mediumCombinations.push(current.join("/"));
+                        }
+                        for (let i = 0; i < arr.length; i++) {
+                            generateCombinations(
+                                arr.slice(i + 1),
+                                current.concat(arr[i]),
+                            );
+                        }
+                    };
+                    generateCombinations(mediums);
+                }
+
+                acc.push(...mediumCombinations);
+                return acc;
+            }, []),
+        ),
+    ];
+
+    return availableSlugs.map((slug) => ({
+        params: { slug },
+        props: { artworks: filterArtworksByMedium(artworks, slug.split("/")) },
+    }));
+};
+---
+
+<Layout
+    title={`Mediums - ${slug.split("/").join(", ")}`}
+    class="divide-y-2 divide-accent"
+    x-data="{index: null}"
+>
+    <div class="border-none snap-start flex w-full h-svh justify-center items-center">
+        <div class="space-y-2">
+
+        <p class="space-x-4">
+            {slug.split('/').length > 1 ? 'media' : 'medium'}
+        </p>
+        <h1>{slug}</h1>
+        </div>
+    </div>
+    {
+        artworks.map((artwork, idx) => (
+            <section
+                class:list={[
+                    "flex-col-reverse sm:flex-row flex snap-center no-war h-svh items-center gap-4 container-fullbreak sticky top-0 bg-base",
+                    { "sm:flex-row-reverse": idx % 2 },
+                ]}
+                x-intersect.full={`index = ${idx}`}
+            >
+                <div
+                    class:list={[
+                        "w-full sm:w-1/2 px-6",
+                        { "text-right": !(idx % 2) },
+                    ]}
+                >
+                    <h2 class="text-3xl sm:text-4xl transition-all duration-200"
+                    :class={`index === ${idx} ? 'opacity-100 translate-y-3' : 'opacity-0 translate-y-0'`}>
+                        {artwork.data.title} ({artwork.data.year})
+                    </h2>
+                    {artwork.data?.tags?.length && (
+                        <ul
+                            class:list={[
+                                "flex gap-2 transition-all duration-300",
+                                idx % 2 ? "justify-start" : "justify-end",
+                            ]}
+                            :class={`index === ${idx} ? 'opacity-100 -translate-y-3' : 'opacity-0 translate-y-0'`}
+                        >
+                            {artwork.data?.tags?.map((tag) => (
+                                <li class="list-none">
+                                    <a href={`/artworks/tag/${tag}`}>#{tag}</a>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+
+                <div class="w-full sm:w-1/2 h-full relative">
+                    <p class="absolute inset-0 transition text-sm duration-200 flex items-center justify-center bg-accent" x-ref={`refText${idx}`}>
+                        <Icon name="svg-spinners:clock" class="w-6 h-6 mr-2" />
+                        image is loading...</p>
+                    <Image
+                        @load={`$refs.refText${idx}.classList.add('opacity-0')`}
+                        class="object-cover h-full w-full"
+                        src={artwork.data.featured.image}
+                        alt={artwork.data.featured?.alt || artwork.data.title}
+                    />
+                </div>
+            </section>
+        ))
+    }
+
+
+</Layout>

@@ -103,3 +103,13 @@ export function getYears(artworks: Artwork[]): number[] {
     .map((artwork) => artwork.data.year)
     .filter((y): y is number => y != null);
 }
+
+export function filterArtworksByMedium(
+  artworks: Artwork[],
+  mediums: string[],
+): Artwork[] {
+  return artworks.filter((artwork) => {
+    const artworkMediums = artwork.data?.medium || [];
+    return mediums.every((medium) => artworkMediums.includes(medium));
+  });
+}

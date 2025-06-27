@@ -8,32 +8,47 @@ const groupByYear = groupArtworksByYear(artworks);
 const years = getYears(artworks);
 ---
 
-<Layout title="Artwork Chronicle">
+<Layout title="Artwork Chronicle" x-data="{showIndex: null}">
     {
         years.reverse().map((year, idx) => (
-            <section
-                class="snap-center flex gap-4  h-svh place-items-center "
-                id={`container-${year}`}
-            >
-                <h2 class="sm:flex-1 text-right text-foreground">{year}</h2>
+            <div class="border-muted border-t container-fullbreak grid-container">
+                <section
+                    class="snap-center flex gap-4  h-svh place-items-center "
+                    id={`container-${year}`}
+                    x-intersect.full={`showIndex = ${idx}`}
+                >
+                    <h2
+                        class="sm:flex-1 text-right text-foreground transition duration-200"
+                        :class={`showIndex === ${idx} ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'`}
+                    >
+                        {year}
+                    </h2>
 
-                <ul class="flex-1">
-                    {groupByYear[year.toString()].map((artwork) => (
-                        <li class="list-none">
-                            <a
-                                href={`/artworks/${artwork.data.slug}`}
-                                class="flex items-center gap-2 text-3xl text-foreground hover:text-accent-foreground transition group"
+                    <ul class="flex-1">
+                        {groupByYear[year.toString()].map((artwork, itemIdx) => (
+                            <li class="list-none"
+                                x-show={`showIndex === ${idx}`}
+                                x-transition:enter="transition ease-out duration-300"
+                                x-transition:enter-start="opacity-0 translate-x-4"
+                                x-transition:enter-end="opacity-100 translate-x-0"
+                                :style={`{"transition-delay": "${itemIdx * 100}ms"}`}
+
                             >
-                                {artwork.data.title.toUpperCase()}
-                                <Icon
-                                    name="hugeicons:arrow-turn-backward"
-                                    class="opacity-0 block text-foreground group-hover:opacity-100 transition w-8 h-8"
-                                />
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            </section>
+                                <a
+                                    href={`/artworks/${artwork.id}`}
+                                    class="flex items-center gap-2 text-3xl text-foreground hover:text-accent-foreground transition group"
+                                >
+                                    {artwork.data.title.toUpperCase()}
+                                    <Icon
+                                        name="hugeicons:arrow-turn-backward"
+                                        class="opacity-0 block text-foreground group-hover:opacity-100 transition w-8 h-8"
+                                    />
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            </div>
         ))
     }
 </Layout>

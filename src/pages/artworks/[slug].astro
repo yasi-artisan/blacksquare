@@ -16,7 +16,7 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
-const { title, gallery, featured, year } = page.data;
+const { title, tags, gallery, featured, year } = page.data;
 const { Content } = await render(page);
 ---
 
@@ -28,14 +28,14 @@ const { Content } = await render(page);
     }`
     >
     <section
-        class="snap-end h-[calc(100svh_-_96px)] flex justify-center items-center"
+        class="snap-end h-[calc(100svh_-_96px)] flex flex-col justify-center items-center"
         x-intersect.full="showTitle = true"
         x-intersect:leave="showTitle = false"
     >
-        <h1 class="text-7xl font-title title-animation" :class="showTitle ? 'title-visible' : ''">
-            {title}
-            <span class="font-body">({year})</span>.
+        <h1 class="text-3xl sm:text-5xl font-bold  title-animation" :class="showTitle ? 'title-visible' : ''">
+            {title}.
         </h1>
+            <p class="font-body text-sm sm:text-xl font-thin transition" :class="showTitle ? 'opacity-100' : 'opacity-0'" >{tags?.map(tag => '#' + tag)?.join(', ') || ''} ({year})</p>.
     </section>
     {
         gallery && (
@@ -63,8 +63,8 @@ const { Content } = await render(page);
     {
         page?.body && (
         <article
-            class="max-w-2xl flex justify-center items-center pt-24 pb-10 snap-start"
-            x-intersect:enter.threshold.50="showContent = true"
+            class="max-w-2xl flex justify-center items-center pt-36 pb-10 snap-start"
+            x-intersect:enter.threshold.10="showContent = true"
             x-intersect:leave="showContent = false"
         >
             <div class="content-wrapper w-full" :class="showContent ? 'content-visible' : ''">
