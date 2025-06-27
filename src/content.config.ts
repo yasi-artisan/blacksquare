@@ -43,7 +43,6 @@ const page = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
-      snippet: z.string().optional(),
       tags: z.string().array().optional(),
       featured: z
         .object({
@@ -53,7 +52,6 @@ const page = defineCollection({
         .optional(),
       isDraft: z.boolean().default(true),
       template: z.enum(["default", "none"]).default("default"),
-      type: z.enum(["default"]).default("default"),
     }),
 });
 

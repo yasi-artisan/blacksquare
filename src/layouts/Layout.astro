@@ -36,7 +36,7 @@ const { title, class: classNames, ...props } = Astro.props;
             }
         </script>
     </Head>
-    <body x-data>
+    <body x-data x-cloak>
         <Sheet class:list={[classNames]} {...props}>
             <MainNav slot="aside" />
 

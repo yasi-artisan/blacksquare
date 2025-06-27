@@ -45,12 +45,20 @@
             {
               "title": "Image",
               "name": "image",
-              "type": "image"
+              "type": "image",
+              "isPreviewImage": true
             },
             {
               "title": "Alt",
               "name": "alt",
-              "type": "string"
+              "type": "string",
+              "actions": [
+                {
+                  "title": "Update alt",
+                  "script": "./scripts/alt.update.mjs",
+                  "command": "node"
+                }
+              ]
             }
           ]
         },
@@ -73,11 +81,6 @@
           "type": "string",
           "single": true,
           "required": true
-        },
-        {
-          "name": "snippet",
-          "type": "string",
-          "single": true
         },
         {
           "name": "tags",
@@ -110,74 +113,6 @@
           "type": "choice",
           "choices": ["default", "none"],
           "default": "default"
-        },
-        {
-          "name": "type",
-          "type": "choice",
-          "choices": ["default"],
-          "default": "default"
-        }
-      ]
-    },
-    {
-      "name": "menu",
-      "pageBundle": false,
-      "clearEmpty": true,
-      "fields": []
-    },
-    {
-      "name": "setting",
-      "pageBundle": false,
-      "clearEmpty": true,
-      "fields": [
-        {
-          "name": "sitename",
-          "type": "string",
-          "single": true,
-          "required": true
-        },
-        {
-          "name": "description",
-          "type": "string",
-          "single": true
-        },
-        {
-          "name": "socials",
-          "type": "fields",
-          "fields": [
-            {
-              "name": "twitter",
-              "type": "string",
-              "single": true
-            },
-            {
-              "name": "instagram",
-              "type": "string",
-              "single": true
-            },
-            {
-              "name": "facebook",
-              "type": "string",
-              "single": true
-            },
-            {
-              "name": "linkedin",
-              "type": "string",
-              "single": true
-            }
-          ]
-        },
-        {
-          "name": "contact",
-          "type": "fields",
-          "fields": [
-            {
-              "name": "email",
-              "type": "string",
-              "single": true
-            }
-          ],
-          "required": true
         }
       ]
     }
@@ -337,6 +272,14 @@
   ],
   "frontMatter.framework.id": "astro",
   "frontMatter.preview.host": "http://localhost:4321",
+  "frontMatter.content.snippets": {
+    "Featured": {
+      "description": "Image with caption",
+      "body": "{{< caption \"[[&mediaUrl]]\" \"[[caption]]\" >}}",
+      "isMediaSnippet": true
+    }
+  },
+  "frontMatter.content.defaultFileType": "mdx",
   "frontMatter.content.pageFolders": [
     {
       "title": "artwork",
@@ -344,7 +287,8 @@
     },
     {
       "title": "pages",
-      "path": "[[workspace]]/src/data/pages"
+      "path": "[[workspace]]/src/data/pages",
+      "contentTypes": ["page"]
     }
   ],
   "frontMatter.content.publicFolder": {

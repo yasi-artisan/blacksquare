@@ -8,16 +8,27 @@ import vercel from "@astrojs/vercel";
 import mdx from "@astrojs/mdx";
 
 import alpinejs from "@astrojs/alpinejs";
-
+import { resolve } from "path";
 import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      alias: {
+        "@/": resolve("./src"),
+      },
+    },
   },
 
-  adapter: vercel(),
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    },
+    imageService: true,
+    devImageService: "sharp",
+  }),
   integrations: [mdx(), alpinejs({ entrypoint: "/src/entrypoint" }), icon()],
   experimental: {
     fonts: [
