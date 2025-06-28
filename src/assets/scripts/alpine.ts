@@ -1,6 +1,6 @@
-import Alpine from "alpinejs";
+// import Alpine from "alpinejs";
 document.addEventListener("alpine:init", () => {
-  Alpine.store("darkMode", {
+  window.Alpine.store("darkMode", {
     value: document.documentElement.classList.contains("dark"),
     set(value) {
       this.value = value;

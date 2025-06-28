@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/forms";
-@import "../../node_modules/flickity/css/flickity.css";
 /* Custom dark mode variant */
 @custom-variant dark (&:where(.dark, .dark *));
 

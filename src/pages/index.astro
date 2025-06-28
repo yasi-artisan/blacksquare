@@ -57,18 +57,19 @@ const siteSettings = await getSiteSettings();
         this.activeIndex = ratio === 0 ? 1 : ratio;
         }
     }`
-    @scroll.throttle="handleScroll"
+    @scroll="handleScroll"
 >
     <div
-        class="h-svh sticky snap-start top-[40px] flex justify-center items-center grid-cols-2 text-foreground"
+        class="h-svh sticky snap-center top-[40px] flex justify-center items-center grid-cols-2 text-foreground"
     >
         {
             frames.map((frame, index) => (
                 <section
-                    class="col-start-2"
+                    class="col-start-2 sm:flex items-center"
                     x-show={`activeIndex === ${index + 1}`}
                 >
                     <Image
+                    width={480}
                         class={frame.imageClass}
                         src={frame.src}
                         loading="eager"
@@ -82,5 +83,4 @@ const siteSettings = await getSiteSettings();
         }
     </div>
 
-    <div class="h-[150vh] scroll-trigger snap-center"></div>
 </Layout>

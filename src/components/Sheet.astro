@@ -61,7 +61,7 @@ const abbreviated = sitename?.match(/\b\w/g)?.join("/").toUpperCase();
         {...props}
     >
         <header
-            class="sticky top-0 border-none z-10 overflow-x-visible flex gap-4 items-center container-fullbreak transition-transform"
+            class="sticky snap-end top-0 border-none z-10 overflow-x-visible flex gap-4 items-center container-fullbreak transition-transform"
             :class="{'scale-95 -translate-x-4 sm:-translate-x-8': scrollY > 80}"
         >
             <button

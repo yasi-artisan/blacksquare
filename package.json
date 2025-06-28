@@ -18,7 +18,7 @@
     "alpinejs": "^3.14.9",
     "astro": "^5.10.0",
     "astro-icon": "^1.1.5",
-    "flickity": "^3.0.0",
+    "embla-carousel": "^8.6.0",
     "resend": "^4.6.0",
     "tailwind-variants": "^1.0.0",
     "tailwindcss": "^4.1.10"

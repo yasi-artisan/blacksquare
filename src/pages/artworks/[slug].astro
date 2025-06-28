@@ -20,13 +20,7 @@ const { title, tags, gallery, featured, year } = page.data;
 const { Content } = await render(page);
 ---
 
-<Layout {title}
-    x-data=`{
-    showTitle: false,
-    showContent: false,
-    activeIndex: 0,
-    }`
-    >
+<Layout {title} x-data="page()" >
     <section
         class="snap-end h-[calc(100svh_-_96px)] flex flex-col justify-center items-center"
         x-intersect.full="showTitle = true"
@@ -40,23 +34,35 @@ const { Content } = await render(page);
     {
         gallery && (
             <section class="snap-end container-fullbreak h-svh pt-24 pb-16">
-                <div class="h-full relative"
-                    x-carousel
-                    @carousel-change="(value) => console.log('Carousel changed', value)"
-                >
-                    {gallery.map((item, index) => (
-                        <div class={`carousel-cell w-1/${Math.round(item.height/item.width + 2)} h-full px-2 `} id={`image-${index}`}>
-                            <Image
+                <div class="embla" >
+                <div class="embla__viewport overflow-hidden " x-ref="embla" >
+                   <div class="embla__container flex space-x-2">
+                       {gallery.map((item, index) => (
+                       <div class="embla__slide flex-none w-auto min-w-[0]">
+                           <Image
                                 src={item}
                                 alt={`Image of ${title} - ${year}`}
                                 layout="constrained"
-                                class="w-auto h-full object-contain block transition-colors img-placeholder"
-                                @load="(target) => $el.classList.toggle('img-placeholder')"
+                                class="w-full h-full object-cover sm:w-auto sm:h-auto"
+                                height={500}
                             />
-                        </div>
+                       </div>
+                       ))}
+                   </div>
+                </div>
+
+
+                <div class="grid-container py-4 place-items-end">
+                <div class="embla__dots space-x-2" >
+                    {gallery.map((_, index) => (
+                        <button
+                        :class={`slideIndex === ${index} ? 'border-foreground' : 'border-muted ring-muted '`}
+                        @click={`embla.scrollTo(${index})`}
+                        class="embla__dot w-4 h-4 rounded-full hover:ring-2 border-2 transition druation-200" aria-label={`Slide ${index + 1}`} />
                     ))}
                 </div>
-                <div class="markers"></div>
+                </div>
+                </div>
             </section>
         )
     }
@@ -76,7 +82,38 @@ const { Content } = await render(page);
 
 </Layout>
 
+<script>
+import EmblaCarousel from "embla-carousel";
+import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 
+window.Alpine.data('page', () => ({
+  showTitle: false,
+  showContent: false,
+  activeIndex: 0,
+  slideIndex: 0,
+  embla: null as null | EmblaCarouselType,
+  init() {
+    const options = {loop: true} as EmblaOptionsType;
+    this.embla = EmblaCarousel(this.$refs.embla, options);
+    const updateIndex = () => {
+      if (this.embla) {
+        this.slideIndex = this.embla.selectedScrollSnap();
+      }
+    }
+    this.embla.on('select', updateIndex);
+    this.embla.on('init', updateIndex);
+    this.embla.on('reInit', updateIndex);
+
+    document.addEventListener('keyup', (e) => {
+      if (e.key === 'ArrowRight') {
+        this.embla?.scrollNext();
+      } else if (e.key === 'ArrowLeft') {
+        this.embla?.scrollPrev();
+      }
+    });
+  }
+}))
+</script>
 
 <style>
     @reference "@/styles/global.css";
