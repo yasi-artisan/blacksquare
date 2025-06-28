@@ -30,4 +30,9 @@
   slug: /about
   order: 3
   children: []
+- children: []
+  id: contact
+  label: Contact
+  slug: /contact
+  type: link
 
