@@ -86,6 +86,10 @@ const { Content } = await render(page);
 import EmblaCarousel from "embla-carousel";
 import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 
+
+const alpineDataInit = () => {
+
+
 window.Alpine.data('page', () => ({
   showTitle: false,
   showContent: false,
@@ -113,6 +117,10 @@ window.Alpine.data('page', () => ({
     });
   }
 }))
+}
+
+alpineDataInit()
+document.addEventListener('astro:after-swap', alpineDataInit)
 </script>
 
 <style>

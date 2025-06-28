@@ -78,9 +78,9 @@ interface FieldErrors {
   message: string;
 }
 
-document.addEventListener('astro:after-swap', () => {
 
-window.Alpine.data('contactForm', () => ({
+const contact =  () => {
+  window.Alpine.data('contactForm', () => ({
         $refs: {} as ContactFormRefs,
         form: {
           name: "",
@@ -123,7 +123,9 @@ window.Alpine.data('contactForm', () => ({
           this.loading = false;
           this.$refs.form.reset();
         }
-    }
-))
-})
+  }))
+}
+
+  contact()
+  document.addEventListener('astro:after-swap', contact)
 </script>
