@@ -119,8 +119,7 @@ window.Alpine.data('page', () => ({
 }))
 }
 
-alpineDataInit()
-document.addEventListener('astro:after-swap', alpineDataInit)
+document.addEventListener('alpine:init', alpineDataInit)
 </script>
 
 <style>
