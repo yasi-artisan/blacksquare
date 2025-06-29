@@ -4,16 +4,22 @@ isDraft: false
 template: none
 fmContentType: page
 ---
-import {Image} from "astro";
+import {Image} from "astro:assets";
+import Landscape1 from "@/assets/images/20220722_114815.jpg";
+import Landscape2 from "@/assets/images/20220723_193910.jpg";
+import Landscape3 from "@/assets/images/20220723_193856.jpg";
+import Paper from "@/assets/images/05f2075e-9a16-4015-91d4-941ca975e982.webp";
+
+
 # Exhibition Review at Massy Art Gallery[^1]
 
 **Rafael Zen** – Your show investigates a sense of space through the exploration of architectonic and linguistic structures. Taking this into consideration, why the title “Inter/me/diary”? What do you think it reveals about what the viewers can expect from this exhibition?
 
 **Yasaman Moussavi** – Architecture and language have always fascinated me. Basically, the former is spatial order, and the latter is mental organization. In the broader sense, architecture can be seen as a form of non-verbal communication, just as language can be seen as an expression of verbal communication.
 
-Yet, the two have a deeper connection. We live through language but experience within a space. As an expression of a form of life, architecture embodies the spatial experience of language. Understanding the correlation between the sensory experience and the structure in our embodied experience of a place is of particular interest to me. 
+Yet, the two have a deeper connection. We live through language but experience within a space. As an expression of a form of life, architecture embodies the spatial experience of language. Understanding the correlation between the sensory experience and the structure in our embodied experience of a place is of particular interest to me.
 
-![](../../../assets/images/05f2075e-9a16-4015-91d4-941ca975e982.webp)
+<Image src={Paper}  height={400} class="snap-start m-auto" alt="paper painting"/>
 
 Through these works, I interrogated the ways in which the domestic spaces were organized around social activities and communal identities. In addition, they hold a lot of personal significance for me. They render my imagination when reading through my great grandfather’s letters and diary about everyday life. A teacher and acute observer, he narrated his sometimes funny daily life in Isfahan, a historical city in central Iran, in letters to his children and friends.
 
@@ -33,23 +39,23 @@ Often rectangular, it serves as the heart of the home and provides a nice green 
 
 As part of this project, nevertheless, I was curious to explore how courtyards function as spaces for social activities and mobility that enable a dialogue between the individual and collective embodiment, transcending the rigid structures of identity.
 
-The plan of these houses is based on binaries of interior and exterior, public and private spaces, yet the courtyard is a transitory space that mediates between the two. There is a sense of communal existence in a courtyard because of the possibilities for more inclusive social interactions. In reconstructing the sense of dwelling in these spaces, I benefited from my own personal experience. 
+The plan of these houses is based on binaries of interior and exterior, public and private spaces, yet the courtyard is a transitory space that mediates between the two. There is a sense of communal existence in a courtyard because of the possibilities for more inclusive social interactions. In reconstructing the sense of dwelling in these spaces, I benefited from my own personal experience.
 
-I have visited many of the remaining sites in Isfahan to gain a firsthand understanding of these places. In addition, as a child, I was told stories about my great grandfather’s Isfahan house. I recall my grandfather and other family members who lived there talking about their memories and all the things that happened there during a gathering in his home. 
+I have visited many of the remaining sites in Isfahan to gain a firsthand understanding of these places. In addition, as a child, I was told stories about my great grandfather’s Isfahan house. I recall my grandfather and other family members who lived there talking about their memories and all the things that happened there during a gathering in his home.
 
-::div
-![](../../../assets/images/20220722_114815.jpg){class=".w-[400px]"}
-![](../../../assets/images/20220723_193910.jpg){class=".w-[400px]"}
-![](../../../assets/images/20220723_193856.jpg){class=".w-[400px]"}
-::
+<div class="flex space-x-2 container-fullbreak snap-start w-full">
+    <Image src={Landscape1} alt="Landscape1" height={400} class="hidden sm:block flex-grow-1 object-cover" />
+    <Image src={Landscape2} alt="Landscape2" height={400} class="hidden sm:block flex-grow-1 object-cover" />
+    <Image src={Landscape3} alt="Landscape3" height={400} class="flex-grow-1 object-cover" />
+</div>
 
 
 
-**RZ** – By combining both – fragments of family epistolary communications and diaries + the spatiality of courtyards, do you think your work addresses the relation between public and private worlds? What are words and inscriptions for, in these pieces? 
+**RZ** – By combining both – fragments of family epistolary communications and diaries + the spatiality of courtyards, do you think your work addresses the relation between public and private worlds? What are words and inscriptions for, in these pieces?
 
 **YM** – I gathered the words and sentences for my work from a few letters my great grandfather wrote to his sons who lived in the capital city to attend a teacher training college. They are letters about family bonds filled with passion, joy, and homesickness.
 
-One of the letters expresses his appreciation for his son’s perseverance and eagerness to be a teacher and how much he missed him. His son expressed his homesickness and loneliness poetically, explaining his mixed feelings about being away from home and away from his family. He begins his letter with a poetic sentence: به یاد وصل رخت صبحگاه برخیزم” I get up every morning hoping to see you!” 
+One of the letters expresses his appreciation for his son’s perseverance and eagerness to be a teacher and how much he missed him. His son expressed his homesickness and loneliness poetically, explaining his mixed feelings about being away from home and away from his family. He begins his letter with a poetic sentence: به یاد وصل رخت صبحگاه برخیزم” I get up every morning hoping to see you!”
 
 Family letters
 
@@ -75,4 +81,3 @@ The process involves in papermaking, such as soaking, beating, screening, and fi
 
 
 [^1]: An Interview with the artist Yasaman Moussavi, conducted by Rafael Zen and published on the Massy Art Gallery
-
