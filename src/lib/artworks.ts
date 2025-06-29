@@ -99,9 +99,13 @@ export function getMediums(artworks: Artwork[]): string[] {
 }
 
 export function getYears(artworks: Artwork[]): number[] {
-  return artworks
-    .map((artwork) => artwork.data.year)
-    .filter((y): y is number => y != null);
+  return [
+    ...new Set(
+      artworks
+        .map((artwork) => artwork.data.year)
+        .filter((y): y is number => y != null),
+    ),
+  ].sort((a, b) => b - a);
 }
 
 export function filterArtworksByMedium(

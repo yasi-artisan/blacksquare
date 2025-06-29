@@ -3,18 +3,25 @@
   type: folder
   order: 1
   children:
-    - label: printmaking
+    - label: Printmaking
       type: link
       slug: /artworks/medium/printmaking
       order: 1
-    - label: painting
+    - label: Painting
       type: link
       slug: /artworks/medium/painting
-      order: 2
+      order: 2.99
     - label: Community Projects
       type: link
-      slug: /artworks/medium/community-projects
-      order: 3
+      slug: /artworks/medium/community-project
+      order: 4
+    - label: Papermaking
+      slug: /artworks/medium/papermaking
+      type: link
+      order: 2
+    - label: Site-specific
+      slug: /artworks/medium/site-specific
+      type: link
 - id: timeline
   label: Timeline
   type: folder
@@ -30,9 +37,4 @@
   slug: /about
   order: 3
   children: []
-- children: []
-  id: contact
-  label: Contact
-  slug: /contact
-  type: link
 

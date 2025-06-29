@@ -2,7 +2,7 @@
 import { Image } from "astro:assets";
 import Layout from "@/layouts/Layout.astro";
 import Menu from "@/components/Menu.astro";
-import { getEntries, getEntry } from "astro:content";
+import {Icon} from "astro-icon/components"
 import { getCollection } from "astro:content";
 import { getSiteSettings } from "../lib/settings";
 import type { MenuItem } from "@/content.config";
@@ -60,13 +60,14 @@ const siteSettings = await getSiteSettings();
     @scroll="handleScroll"
 >
     <div
-        class="h-svh sticky snap-center top-[40px] flex justify-center items-center grid-cols-2 text-foreground"
+        class="sticky py-8 sm:py-24 snap-center top-[40px] grid grid-cols-1 grid-rows-[4rem_500px_2rem] sm:grid-rows-[2rem_400px_2rem] place-items-center text-foreground"
     >
         {
             frames.map((frame, index) => (
                 <section
-                    class="col-start-2 sm:flex items-center"
+                    class="col-start-1 row-start-2 sm:flex items-center"
                     x-show={`activeIndex === ${index + 1}`}
+                    x-transition
                 >
                     <Image
                     width={480}
@@ -75,12 +76,18 @@ const siteSettings = await getSiteSettings();
                         loading="eager"
                         alt={frame.alt}
                     />
-                    <h2 class="text-xl font-semibold text-center transition-colors duration-300">
+                    <h2 class="text-3xl font-semibold transition-colors duration-300">
                         <a href={frame.href}>{frame.title}</a>
                     </h2>
                 </section>
             ))
         }
+        <button class="row-start-1 inline-flex gap-2 items-center text-[1rem] self-end sm:self-center" x-show={`activeIndex > 1`} @click="activeIndex--">
+              Previous <Icon name="hugeicons:circle-arrow-up-01" class="w-7 h-7" />
+          </button>
+        <button class="row-start-3 inline-flex gap-2 items-center text-[1rem]" x-show={`activeIndex < ${frames.length}`} @click="activeIndex++">
+            Next <Icon name="hugeicons:circle-arrow-down-01" class="w-7 h-7" />
+        </button>
     </div>
-
+    <div class="h-[50vh]"></div>
 </Layout>

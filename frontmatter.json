@@ -111,7 +111,10 @@
         {
           "name": "template",
           "type": "choice",
-          "choices": ["default", "none"],
+          "choices": [
+            "default",
+            "none"
+          ],
           "default": "default"
         }
       ]
@@ -207,7 +210,11 @@
       "labelField": "id",
       "singleEntry": false,
       "schema": {
-        "required": ["id", "label", "type"],
+        "required": [
+          "id",
+          "label",
+          "type"
+        ],
         "title": "Menu",
         "type": "object",
         "properties": {
@@ -238,7 +245,11 @@
           "children": {
             "type": "array",
             "title": "Children",
-            "required": ["id", "label", "type"],
+            "required": [
+              "id",
+              "label",
+              "type"
+            ],
             "items": {
               "type": "object",
               "title": "Children",
@@ -288,7 +299,9 @@
     {
       "title": "pages",
       "path": "[[workspace]]/src/data/pages",
-      "contentTypes": ["page"]
+      "contentTypes": [
+        "page"
+      ]
     }
   ],
   "frontMatter.content.publicFolder": {
@@ -304,9 +317,18 @@
         "papermaking",
         "printmaking",
         "community project",
-        "installation"
+        "installation",
+        "site-specific"
       ]
     }
   ],
-  "frontMatter.framework.startCommand": "yarn dev"
+  "frontMatter.framework.startCommand": "yarn dev",
+  "frontMatter.custom.scripts": [
+    {
+      "title": "Optimize image",
+      "script": "./scripts/optimize.image.mjs",
+      "command": "node",
+      "type": "mediaFile"
+    }
+  ]
 }

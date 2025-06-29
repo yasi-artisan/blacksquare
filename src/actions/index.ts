@@ -1,3 +1,4 @@
+import { getSiteSettings } from "@/lib/settings";
 import { ActionError } from "astro/actions/runtime/virtual/shared.js";
 import { defineAction } from "astro:actions";
 import { z } from "astro:schema";
@@ -14,16 +15,15 @@ export const server = {
       name: z.string().optional(),
     }),
     handler: async ({ email, message, name }) => {
+      const { contact } = await getSiteSettings();
       const { data, error } = await resend.emails.send({
         from: "Yasaman Moussavi -- Official webpage <no-reply@yasamanmoussavi.com>",
         to: [email],
-        bcc: ["kavehrafie@gmail.com"],
-        subject: "Thank you for your message",
-        text: message,
-        html: `
-                <p>Thanks ${name && ", " + name}! Your message was received!</p>
-                <p>Here is the content of your message:</p>
-                <blockquote>${message}</blockquote>`,
+        bcc: [contact.email],
+        subject: contact.thank?.subject || "Thank you for your message",
+        html: `<p>Thanks ${name && ", " + name}! Your message was received!</p>
+               <p>Here is the content of your message:</p>
+               <blockquote>${message}</blockquote>`,
       });
 
       if (error) {

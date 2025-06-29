@@ -14,31 +14,8 @@ const { title, class: classNames, ...props } = Astro.props;
 ---
 
 <html lang="en" class="scroll-smooth">
-    <Head {title}>
-        <script is:inline>
-        document.addEventListener("astro:after-swap", () => {
-            const theme = (() => {
-                if (
-                    typeof localStorage !== "undefined" &&
-                    localStorage.getItem("darkMode")
-                ) {
-                    return localStorage.getItem("darkMode") === "true";
-                }
-                if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-                    return true;
-                }
-                return false;
-            })();
-
-            if (theme) {
-                document.documentElement.classList.add("dark");
-            } else {
-                document.documentElement.classList.remove("dark");
-            }
-        });
-        </script>
-    </Head>
-    <body x-data x-cloak >
+    <Head {title} />
+    <body x-data x-cloak x-init="$store.darkMode.value && document.documentElement.classList.add('dark')">
         <Sheet class:list={[classNames]} {...props}>
             <MainNav slot="aside" />
 

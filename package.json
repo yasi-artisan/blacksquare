@@ -29,6 +29,8 @@
     "@iconify-json/svg-spinners": "^1.2.2",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.16",
-    "@types/alpinejs__intersect": "^3.13.4"
+    "@types/alpinejs__intersect": "^3.13.4",
+    "imagemin": "^9.0.1",
+    "imagemin-webp": "^8.0.0"
   }
 }

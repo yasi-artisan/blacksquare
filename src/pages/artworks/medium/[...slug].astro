@@ -54,7 +54,7 @@ export const getStaticPaths = async () => {
     class="divide-y-2 divide-accent"
     x-data="{index: null}"
 >
-    <div class="border-none snap-start flex w-full h-svh justify-center items-center">
+    <div class="border-none flex w-full h-[calc(100svh_-_96px)] justify-center items-center">
         <div class="space-y-2">
 
         <p class="space-x-4">
@@ -102,9 +102,6 @@ export const getStaticPaths = async () => {
                 </div>
 
                 <div class="w-full sm:w-1/2 h-full relative">
-                    <p class="absolute inset-0 transition text-sm duration-200 flex items-center justify-center bg-accent" x-ref={`refText${idx}`}>
-                        <Icon name="svg-spinners:clock" class="w-6 h-6 mr-2" />
-                        image is loading...</p>
                     <Image
                         @load={`$refs.refText${idx}.classList.add('opacity-0')`}
                         class="object-cover h-full w-full"

@@ -20,7 +20,7 @@ const { title, tags, gallery, featured, year } = page.data;
 const { Content } = await render(page);
 ---
 
-<Layout {title} x-data="page()" >
+<Layout {title} x-data="artworkPage()" >
     <section
         class="snap-end h-[calc(100svh_-_96px)] flex flex-col justify-center items-center"
         x-intersect.full="showTitle = true"
@@ -36,9 +36,9 @@ const { Content } = await render(page);
             <section class="snap-end container-fullbreak h-svh pt-24 pb-16">
                 <div class="embla" >
                 <div class="embla__viewport overflow-hidden " x-ref="embla" >
-                   <div class="embla__container flex space-x-2">
+                   <div class="embla__container flex">
                        {gallery.map((item, index) => (
-                       <div class="embla__slide flex-none w-auto min-w-[0]">
+                       <div class="embla__slide flex-none w-auto min-w-[0] ml-2">
                            <Image
                                 src={item}
                                 alt={`Image of ${title} - ${year}`}
@@ -52,15 +52,15 @@ const { Content } = await render(page);
                 </div>
 
 
-                <div class="grid-container py-4 place-items-end">
-                <div class="embla__dots space-x-2" >
-                    {gallery.map((_, index) => (
-                        <button
-                        :class={`slideIndex === ${index} ? 'border-foreground' : 'border-muted ring-muted '`}
-                        @click={`embla.scrollTo(${index})`}
-                        class="embla__dot w-4 h-4 rounded-full hover:ring-2 border-2 transition druation-200" aria-label={`Slide ${index + 1}`} />
-                    ))}
-                </div>
+                <div class="grid-container py-4 place-items-center">
+                    <div class="embla__dots space-x-2" >
+                        {gallery.map((_, index) => (
+                            <button
+                            :class={`slideIndex === ${index} ? 'border-foreground' : 'border-muted ring-muted '`}
+                            @click={`embla.scrollTo(${index})`}
+                            class="embla__dot w-4 h-4 rounded-full hover:ring-2 border-2 transition druation-200" aria-label={`Slide ${index + 1}`} />
+                        ))}
+                    </div>
                 </div>
                 </div>
             </section>
@@ -83,43 +83,7 @@ const { Content } = await render(page);
 </Layout>
 
 <script>
-import EmblaCarousel from "embla-carousel";
-import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 
-
-const alpineDataInit = () => {
-
-
-window.Alpine.data('page', () => ({
-  showTitle: false,
-  showContent: false,
-  activeIndex: 0,
-  slideIndex: 0,
-  embla: null as null | EmblaCarouselType,
-  init() {
-    const options = {loop: true} as EmblaOptionsType;
-    this.embla = EmblaCarousel(this.$refs.embla, options);
-    const updateIndex = () => {
-      if (this.embla) {
-        this.slideIndex = this.embla.selectedScrollSnap();
-      }
-    }
-    this.embla.on('select', updateIndex);
-    this.embla.on('init', updateIndex);
-    this.embla.on('reInit', updateIndex);
-
-    document.addEventListener('keyup', (e) => {
-      if (e.key === 'ArrowRight') {
-        this.embla?.scrollNext();
-      } else if (e.key === 'ArrowLeft') {
-        this.embla?.scrollPrev();
-      }
-    });
-  }
-}))
-}
-
-document.addEventListener('alpine:init', alpineDataInit)
 </script>
 
 <style>
@@ -176,5 +140,8 @@ document.addEventListener('alpine:init', alpineDataInit)
         & :global(*:nth-child(6)) { transition-delay: 0.6s; }
         & :global(*:nth-child(7)) { transition-delay: 0.7s; }
         & :global(*:nth-child(8)) { transition-delay: 0.8s; }
+        & :global(*:nth-child(9)) { transition-delay: 0.8s; }
+        & :global(*:nth-child(10)) { transition-delay: 0.8s; }
+        & :global(*:nth-child(11)) { transition-delay: 0.8s; }
     }
 </style>

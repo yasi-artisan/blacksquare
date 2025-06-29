@@ -1,12 +1,6 @@
 ---
-import { actions } from "astro:actions";
 ---
-<div
-
-x-data="contactForm()"
->
-
-
+<div x-data="contactForm()">
 <form
   id="contact-form"
   @submit="submit"
@@ -58,73 +52,3 @@ x-data="contactForm()"
 
 </form>
 </div>
-
-<script>
-import { isInputError } from "astro:actions";
-import { actions } from "astro:actions";
-
-interface ContactFormRefs {
-  form: HTMLFormElement;
-}
-interface ContactFormData {
-  name: string;
-  email: string;
-  message: string;
-}
-
-interface FieldErrors {
-  name: string;
-  email: string;
-  message: string;
-}
-
-
-const contact =  () => {
-  window.Alpine.data('contactForm', () => ({
-        $refs: {} as ContactFormRefs,
-        form: {
-          name: "",
-          email: "",
-          message: ""
-        },
-        fieldErrors: {
-          name: "",
-          email: "",
-          message: ""
-
-        } as FieldErrors,
-        message: null as string | null,
-        loading: false as boolean,
-        isError: true,
-        async submit(e: SubmitEvent) {
-          e.preventDefault();
-          this.loading = true;
-          const formData = new FormData(this.$refs.form);
-          const {data, error} = await actions.contact(formData);
-          this.loading = false;
-          if (isInputError(error)) {
-            const fields = Object.keys(this.fieldErrors);
-            fields.forEach(field => {
-              if (field in error.fields) {
-                // @ts-ignore
-                this.fieldErrors[field as keyof FieldErrors] = error.fields[field].join(", ");
-              }
-            });
-          }
-
-          if (data?.success) {
-            this.message = data.message
-            this.isError = false
-          } else {
-            this.isError = true
-          }
-        },
-        reset() {
-          this.loading = false;
-          this.$refs.form.reset();
-        }
-  }))
-}
-
-  document.addEventListener('alpine:init', contact)
-</script>

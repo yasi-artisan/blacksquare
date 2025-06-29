@@ -32,7 +32,13 @@ const setting = defineCollection({
       })
       .optional(),
     contact: z.object({
-      email: z.string().email().optional(),
+      email: z.string().email(),
+      thank: z
+        .object({
+          subject: z.string().optional(),
+          body: z.string().optional(),
+        })
+        .optional(),
     }),
     features: z.record(z.string(), z.boolean()).optional(),
   }),

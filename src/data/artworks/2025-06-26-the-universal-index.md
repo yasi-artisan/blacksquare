@@ -11,13 +11,14 @@ tags:
     - paper
     - language
 featured:
-    image: ../../assets/images/IMG_1406.jpg
     alt: Handmade paper from recycled paper, each paper approx. 5x7
+    image: ../../assets/images/IMG_1409.jpg
 gallery:
-    - ../../assets/images/IMG_1408.jpg
-    - ../../assets/images/IMG_1424.jpg
-    - ../../assets/images/IMG_1425.jpg
-    - ../../assets/images/IMG_1426.jpg
+    - ../../assets/images/1eaf4692-7175-4595-9719-5abfa12c93b1.webp
+    - ../../assets/images/f5e673ea-f3e7-448f-b037-060387fc58f8.webp
+    - ../../assets/images/9b53710e-d537-4b82-a0d6-3075b2c9bc91.webp
+    - ../../assets/images/36adcab9-c93e-420b-86df-20cf1fd05461.webp
+    - ../../assets/images/63962c54-f599-4540-8253-e3af0a9239ea.webp
 ---
 
 ## Statement
