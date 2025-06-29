@@ -31,6 +31,7 @@
     "@tailwindcss/typography": "^0.5.16",
     "@types/alpinejs__intersect": "^3.13.4",
     "imagemin": "^9.0.1",
-    "imagemin-webp": "^8.0.0"
+    "imagemin-webp": "^8.0.0",
+    "remark-mdc": "^3.6.0"
   }
 }
