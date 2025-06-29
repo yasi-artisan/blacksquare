@@ -133,7 +133,7 @@
   }
 
   li {
-    @apply list-disc list-inside mb-2;
+    @apply list-inside mb-2;
   }
 
   a {
@@ -172,6 +172,12 @@
     to {
       opacity: 1;
       transform: scale(1);
+    }
+  }
+
+  .footnotes {
+    p {
+      @apply text-[1rem];
     }
   }
 }
