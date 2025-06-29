@@ -1,23 +1,38 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { Image } from "astro:assets";
 import { TEMPLATES } from "@/lib/templates";
 import { getCollection, render } from "astro:content";
+import  PageList from "@/components/PageList.astro";
 
-const { page } = Astro.props;
+const { page, folder } = Astro.props;
 
-const { template, title } = page.data;
+const getTitle = (id: string) => {
+  return id.split('/').slice(-2, -1)[0] || '';
+}
+
+const { template, title } = page?.data || {title: folder && getTitle(folder[0]?.id) || "Not Founded"};
 const Template = TEMPLATES[template as keyof typeof TEMPLATES];
 
 export const getStaticPaths = async () => {
-    const pages = await getCollection("page", ({ data }) => !data.isDraft);
-    return pages.map((page) => ({
-        props: { page },
+    const collection = await getCollection("page", ({ data }) => !data.isDraft);
+
+    const folders = [... new Set(collection.map((page) => page.id).map((slug) => slug.split("/").slice(0, -1).join("/")).filter((slug) => slug !== ""))];
+
+    const pagePaths = collection.map((page) => ({
+        props: { page, folder: null },
         params: { slug: page.id },
     }));
+
+    const folderPaths = folders.map((folder) => ({
+        props: { page: null, folder: collection.filter((page) => page.id.split("/").slice(0, -1).join("/") === folder) },
+        params: { slug: folder },
+    }));
+
+    return [...pagePaths, ...folderPaths];
 };
 ---
 
 <Layout {title} class="prose max-w-none mx-auto">
-    <Template {page} />
+    { page && <Template {page} />}
+    { folder && <PageList pages={folder} {title} />}
 </Layout>

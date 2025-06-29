@@ -1,0 +1,26 @@
+---
+import { propsToFilename } from "astro/assets/utils";
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content"
+
+interface Props {
+ pages: CollectionEntry<"page">[];
+ title: string
+}
+
+const {pages, title}: Props = Astro.props
+
+---
+
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 auto-rows-fr gap-2">
+    {pages.map((page) => <div class="h-full flex flex-col">
+        <a href={"/" + page.id}> <h3>{page.data.title}</h3></a>
+        {
+        page.data.featured?.image &&
+        <Image class="flex-1 object-cover" src={page.data.featured.image} alt={page.data.title} />
+        }
+    </div>)}
+</div>
+
+<h1 class="sticky bottom-0 bg-base/50 backdrop-blur-md py-4">{title}</h1>
