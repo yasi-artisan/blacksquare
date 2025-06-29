@@ -113,7 +113,9 @@ export function filterArtworksByMedium(
   mediums: string[],
 ): Artwork[] {
   return artworks.filter((artwork) => {
-    const artworkMediums = artwork.data?.medium || [];
+    const artworkMediums = (artwork.data?.medium || []).map((m) =>
+      m.trim().toLowerCase().replace(/\s+/g, "-"),
+    );
     return mediums.every((medium) => artworkMediums.includes(medium));
   });
 }

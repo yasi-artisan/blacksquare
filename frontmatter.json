@@ -284,9 +284,13 @@
   "frontMatter.framework.id": "astro",
   "frontMatter.preview.host": "http://localhost:4321",
   "frontMatter.content.snippets": {
-    "Featured": {
+    "Image Component": {
       "description": "Image with caption",
-      "body": "{{< caption \"[[&mediaUrl]]\" \"[[caption]]\" >}}",
+      "body": [
+        "import { Image } from 'astro:assets';",
+        "import [[filename]] from \"@/assets/[[&mediaUrl]]\"",
+        "<Image src={[[filename]]} alt=\"[[caption]]\" />"
+      ],
       "isMediaSnippet": true
     }
   },
@@ -318,7 +322,11 @@
         "printmaking",
         "community project",
         "installation",
-        "site-specific"
+        "site-specific",
+        "photography",
+        "digital",
+        "performance",
+        "workshop"
       ]
     }
   ],

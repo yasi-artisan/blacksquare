@@ -6,7 +6,6 @@ import tailwindcss from "@tailwindcss/vite";
 import vercel from "@astrojs/vercel";
 
 import mdx from "@astrojs/mdx";
-import remarkMDC from "remark-mdc";
 
 import alpinejs from "@astrojs/alpinejs";
 import { resolve } from "path";
@@ -30,11 +29,7 @@ export default defineConfig({
     imageService: true,
     devImageService: "sharp",
   }),
-  integrations: [
-    mdx({ remarkPlugins: [remarkMDC] }),
-    alpinejs({ entrypoint: "/src/entrypoint" }),
-    icon(),
-  ],
+  integrations: [mdx(), alpinejs({ entrypoint: "/src/entrypoint" }), icon()],
   experimental: {
     fonts: [
       {
