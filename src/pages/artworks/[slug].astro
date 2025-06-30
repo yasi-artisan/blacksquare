@@ -29,7 +29,7 @@ const { Content } = await render(page);
         <h1 class="text-3xl sm:text-5xl font-bold  title-animation" :class="showTitle ? 'title-visible' : ''">
             {title}.
         </h1>
-            <p class="font-body text-sm sm:text-xl font-thin transition" :class="showTitle ? 'opacity-100' : 'opacity-0'" >{tags?.map(tag => '#' + tag)?.join(', ') || ''} ({year})</p>.
+            <p class="font-body text-sm sm:text-xl font-thin transition" :class="showTitle ? 'opacity-100' : 'opacity-0'" >{tags?.map(tag => '#' + tag)?.join(', ') || ''} ({year})</p>
     </section>
     {
         gallery && (
@@ -43,7 +43,7 @@ const { Content } = await render(page);
                                 src={item}
                                 alt={`Image of ${title} - ${year}`}
                                 layout="constrained"
-                                class="w-full h-full object-cover sm:w-auto sm:h-auto"
+                                class="h-full object-cover sm:w-auto sm:h-auto"
                                 height={500}
                             />
                        </div>
