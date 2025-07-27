@@ -5,7 +5,7 @@
       "name": "artwork",
       "pageBundle": false,
       "clearEmpty": true,
-      "previewPath": "/artworks",
+      "previewPath": "artworks",
       "fields": [
         {
           "name": "title",
@@ -118,6 +118,85 @@
           "default": "default"
         }
       ]
+    },
+    {
+      "name": "setting",
+      "pageBundle": false,
+      "clearEmpty": true,
+      "fields": [
+        {
+          "name": "sitename",
+          "type": "string",
+          "single": true,
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "single": true
+        },
+        {
+          "name": "socials",
+          "type": "fields",
+          "fields": [
+            {
+              "name": "twitter",
+              "type": "string",
+              "single": true
+            },
+            {
+              "name": "instagram",
+              "type": "string",
+              "single": true
+            },
+            {
+              "name": "facebook",
+              "type": "string",
+              "single": true
+            },
+            {
+              "name": "linkedin",
+              "type": "string",
+              "single": true
+            }
+          ]
+        },
+        {
+          "name": "contact",
+          "type": "fields",
+          "fields": [
+            {
+              "name": "email",
+              "type": "string",
+              "single": true,
+              "required": true
+            },
+            {
+              "name": "thank",
+              "type": "fields",
+              "fields": [
+                {
+                  "name": "subject",
+                  "type": "string",
+                  "single": true
+                },
+                {
+                  "name": "body",
+                  "type": "string",
+                  "single": true
+                }
+              ]
+            }
+          ],
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "menu",
+      "pageBundle": false,
+      "clearEmpty": true,
+      "fields": []
     }
   ],
   "frontMatter.data.files": [
@@ -245,15 +324,18 @@
           "children": {
             "type": "array",
             "title": "Children",
-            "required": [
-              "id",
-              "label",
-              "type"
-            ],
             "items": {
               "type": "object",
               "title": "Children",
+              "required": [
+                "label",
+                "type"
+              ],
               "properties": {
+                "id": {
+                  "type": "string",
+                  "title": "ID"
+                },
                 "label": {
                   "type": "string",
                   "title": "Label"
@@ -298,7 +380,8 @@
   "frontMatter.content.pageFolders": [
     {
       "title": "artwork",
-      "path": "[[workspace]]/src/data/artworks"
+      "path": "[[workspace]]/src/data/artworks",
+      "previewPath": "artworks"
     },
     {
       "title": "pages",
