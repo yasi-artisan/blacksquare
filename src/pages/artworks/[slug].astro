@@ -27,7 +27,7 @@ const { Content } = await render(page);
         x-intersect:leave="showTitle = false"
     >
         <h1 class="text-3xl sm:text-5xl font-bold  title-animation" :class="showTitle ? 'title-visible' : ''">
-            {title}.
+            {title}
         </h1>
             <p class="font-body text-sm sm:text-xl font-thin transition" :class="showTitle ? 'opacity-100' : 'opacity-0'" >{tags?.map(tag => '#' + tag)?.join(', ') || ''} ({year})</p>
     </section>
